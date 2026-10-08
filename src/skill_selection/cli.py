@@ -4,6 +4,9 @@
   stats skillret [--split test]                 dataset statistics -> artifacts/reports/
   catalog --path <dir> --out <file.jsonl>       convert a SKILL.md folder into a skill catalog
   run --selector bm25 [--split test] [--k 15]   offline retrieval run -> artifacts/runs/<run id>/
+  index gr1 [--encoder SPEC ...]                embed the GR1 snapshot -> artifacts/explorer/skill_index.json
+  select gr1 [--seed 0] [--ram-mode fixed:8192] [--os windows] [--k 3]
+                                                Tier 1 + cosine top-k -> artifacts/explorer/selection_cache.json
 """
 from __future__ import annotations
 
@@ -80,6 +83,52 @@ def _cmd_run(args) -> int:
     return 0
 
 
+def _load_env_file(path: Path) -> None:
+    """KEY=VALUE lines into os.environ (existing variables win); values are never printed."""
+    import os
+    for line in Path(path).read_text(encoding="utf-8").splitlines():
+        key, sep, value = line.strip().partition("=")
+        if sep and key and not key.startswith("#"):
+            os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
+
+
+def _cmd_index(args) -> int:
+    from .datasets.gr1 import load_gr1
+    from .encoders import build_encoder
+    from .explorer import build_index, write_json_stable
+    if args.env_file:
+        _load_env_file(args.env_file)
+    bench = load_gr1()
+    encoders = [build_encoder(spec, cache_dir=Path(args.artifacts) / "cache" / "embeddings") for spec in args.encoder]
+    index = build_index(bench, encoders)
+    out = Path(args.artifacts) / "explorer" / "skill_index.json"
+    write_json_stable(index, out)
+    for spec, enc in index["encoders"].items():
+        print(f"{spec}: dim {enc['dim']}, {len(enc['skill_vectors'])} skills, {len(enc['task_vectors'])} tasks")
+    print(f"index written to {out} ({out.stat().st_size / 1e6:.1f} MB)")
+    return 0
+
+
+def _cmd_select(args) -> int:
+    from .explorer import select_all, sha256_file, write_json_stable
+    from .filters.constraint import Environment, parse_ram_mode
+    index_path = Path(args.artifacts) / "explorer" / "skill_index.json"
+    if not index_path.exists():
+        raise SystemExit(f"{index_path} not found; run `python -m skill_selection index gr1` first")
+    index = json.loads(index_path.read_text(encoding="utf-8"))
+    env = Environment(os_name=args.os, ram_mb=parse_ram_mode(args.ram_mode))
+    cache = select_all(index, env, ram_mode=args.ram_mode, k=args.k, seed=args.seed, encoders=args.encoder,
+                       index_sha256=sha256_file(index_path))
+    out = Path(args.artifacts) / "explorer" / "selection_cache.json"
+    write_json_stable(cache, out, pretty=True)
+    for run in cache["runs"]:
+        print(f"\n{run['params']['encoder']}  (Tier 1 excluded: {', '.join(run['params']['tier1_excluded']) or '-'})")
+        for task_id, task in run["tasks"].items():
+            print(f"  {task_id:24s} {', '.join(task['selected'])}")
+    print(f"\nselection written to {out}  sha256 {sha256_file(out)[:16]}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="skill-selection", description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -113,11 +162,31 @@ def build_parser() -> argparse.ArgumentParser:
     r.add_argument("--seed", type=int, default=0)
     r.add_argument("--limit", type=int, default=0, help="only the first N queries (smoke test)")
     r.set_defaults(func=_cmd_run)
+
+    from .encoders import DEFAULT_ENCODER
+    i = sub.add_parser("index", help="embed a benchmark snapshot for the explorer")
+    i.add_argument("dataset", choices=["gr1"])
+    i.add_argument("--encoder", action="append", default=None,
+                   help=f"repeatable; default {DEFAULT_ENCODER}. Example: openai:text-embedding-3-small")
+    i.add_argument("--env-file", type=Path, help="file with OPENAI_API_KEY=... (only needed for openai:)")
+    i.set_defaults(func=_cmd_index)
+
+    e = sub.add_parser("select", help="Tier 1 + cosine top-k for every task, from the precomputed index")
+    e.add_argument("dataset", choices=["gr1"])
+    e.add_argument("--seed", type=int, default=0)
+    e.add_argument("--ram-mode", default="fixed:8192")
+    e.add_argument("--os", default="windows", choices=["windows", "linux", "darwin"])
+    e.add_argument("--k", type=int, default=3)
+    e.add_argument("--encoder", action="append", default=None, help="repeatable; default: every encoder in the index")
+    e.set_defaults(func=_cmd_select)
     return p
 
 
 def main(argv=None) -> int:
     args = build_parser().parse_args(argv)
+    if getattr(args, "command", None) == "index" and not args.encoder:
+        from .encoders import DEFAULT_ENCODER
+        args.encoder = [DEFAULT_ENCODER]
     return args.func(args)
 
 
