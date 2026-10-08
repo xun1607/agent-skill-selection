@@ -1,7 +1,9 @@
 import json
+import os
 import socket
 import subprocess
 import sys
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -108,6 +110,17 @@ def test_selection(index):
         assert scores == sorted(scores, reverse=True)
 
 
+def test_select_accepts_user_spec_and_rejects_unknown(index, monkeypatch):
+    import skill_selection.encoders as encoders
+    monkeypatch.setitem(encoders.PINNED_REVISIONS, "hash", "v1")       # let "st:hash" resolve like a pinned model
+    index = {**index, "encoders": {"st:hash@v1": index["encoders"]["fake:hash@v1"]}}
+    env = Environment("windows", 8192)
+    run = select_all(index, env, ram_mode="fixed:8192", k=3, seed=0, encoders=["st:hash"])["runs"][0]
+    assert run["params"]["encoder"] == "st:hash@v1"
+    with pytest.raises(ValueError, match="not in the index"):
+        select_all(index, env, ram_mode="fixed:8192", k=3, seed=0, encoders=["openai:text-embedding-3-small"])
+
+
 def test_selection_is_byte_identical(index, tmp_path):
     env = Environment("windows", 8192)
     for name in ("a.json", "b.json"):
@@ -130,5 +143,7 @@ def test_selection_does_not_import_models(index, tmp_path):
             f"select_all(json.load(open(r'{path}', encoding='utf-8')), Environment('windows', 8192), "
             "ram_mode='fixed:8192', k=3, seed=0); "
             "print(json.dumps(sorted(m for m in ('torch', 'sentence_transformers', 'openai') if m in sys.modules)))")
-    out = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, check=True).stdout
+    src = str(Path(__file__).resolve().parents[2] / "src")    # works without `pip install -e .` too
+    env = {**os.environ, "PYTHONPATH": os.pathsep.join(filter(None, [src, os.environ.get("PYTHONPATH")]))}
+    out = subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, check=True, env=env).stdout
     assert json.loads(out) == []

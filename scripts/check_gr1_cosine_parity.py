@@ -80,8 +80,9 @@ def main() -> int:
             print(f"{task['id']:24s} identical ({len(ours)} ranked; top-3 {', '.join(ours[:3])})")
         else:
             ok = False
-            i = next(i for i, (a, b) in enumerate(zip(gr1_order, ours)) if a != b) if len(gr1_order) == len(ours) else -1
-            print(f"{task['id']:24s} DIFFERENT at rank {i + 1}: GR1 {gr1_order[i:i + 3]} vs ours {ours[i:i + 3]}")
+            i = next((i for i, (a, b) in enumerate(zip(gr1_order, ours)) if a != b), min(len(gr1_order), len(ours)))
+            print(f"{task['id']:24s} DIFFERENT at rank {i + 1} (GR1 ranks {len(gr1_order)}, ours {len(ours)}): "
+                  f"GR1 {gr1_order[i:i + 3]} vs ours {ours[i:i + 3]}")
     print("PARITY OK" if ok else "PARITY FAILED")
     return 0 if ok else 1
 

@@ -37,6 +37,16 @@ def test_missing_artifacts_show_instructions(monkeypatch, tmp_path):
     assert any("index gr1" in e.value for e in at.error)
 
 
+def test_stale_selection_is_refused(monkeypatch, explorer_dir, tmp_path):
+    (tmp_path / "skill_index.json").write_bytes((explorer_dir / "skill_index.json").read_bytes())
+    selection = json.loads((explorer_dir / "selection_cache.json").read_text(encoding="utf-8"))
+    selection["runs"][0]["tasks"].pop("tc_java_npe")              # e.g. computed from an older index
+    (tmp_path / "selection_cache.json").write_text(json.dumps(selection), encoding="utf-8")
+    at = _app(monkeypatch, tmp_path)
+    assert not at.exception
+    assert any("select gr1" in e.value for e in at.error)
+
+
 def test_three_areas(monkeypatch, explorer_dir):
     at = _app(monkeypatch, explorer_dir)
     assert not at.exception

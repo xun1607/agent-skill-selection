@@ -88,8 +88,15 @@ def select_all(index: Dict[str, Any], env: Environment, ram_mode: str, k: int, s
                encoders: Optional[Sequence[str]] = None, index_sha256: Optional[str] = None) -> Dict[str, Any]:
     ids = [s["id"] for s in index["skills"]]
     reasons = {s["id"]: r for s in index["skills"] if (r := exclusion_reason(s["id"], s["constraints"], env))}
+    available = list(index["encoders"])
+    if encoders:
+        from .encoders import canonical_spec        # pure string parsing, no model import
+        encoders = [canonical_spec(s) for s in encoders]
+        unknown = [s for s in encoders if s not in index["encoders"]]
+        if unknown:
+            raise ValueError(f"encoder(s) {unknown} not in the index; available: {available}")
     runs = []
-    for spec in encoders or list(index["encoders"]):
+    for spec in encoders or available:
         enc = index["encoders"][spec]
         matrix = np.asarray([enc["skill_vectors"][sid] for sid in ids], dtype=np.float32)
         tasks = {}

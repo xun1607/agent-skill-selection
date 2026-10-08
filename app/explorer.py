@@ -59,6 +59,14 @@ if index is None or selection is None:
 
 skills = {s["id"]: s for s in index["skills"]}
 tasks = {t["id"]: t for t in index["tasks"]}
+# A selection computed from another index may name tasks / skills this index lacks: refuse instead of crashing
+stale = selection.get("index_created_at") != index.get("created_at") or any(
+    set(r["tasks"]) != set(tasks) or any(row["skill_id"] not in skills for t in r["tasks"].values() for row in t["ranking"])
+    for r in selection["runs"])
+if stale:
+    st.error("Kết quả chọn được tính từ một index khác với index hiện tại. Chạy lại lệnh:\n\n"
+             "```\npython -m skill_selection select gr1 --seed 0 --ram-mode fixed:8192 --os windows --k 3\n```")
+    st.stop()
 
 # ---------------------------------------------------------------- sidebar: what produced the numbers
 with st.sidebar:
@@ -81,8 +89,6 @@ with st.sidebar:
     if prompt:
         with st.expander("Prompt cho nhiệm vụ (query)"):
             st.code(prompt, language=None)
-    if selection.get("index_created_at") != index.get("created_at"):
-        st.warning("Kết quả chọn được tính từ một index cũ hơn. Chạy lại lệnh `select`.")
 
 st.title("Skill Explorer")
 st.caption(f"Bộ GR1: {len(skills)} skill, {len(tasks)} nhiệm vụ sửa lỗi. "
