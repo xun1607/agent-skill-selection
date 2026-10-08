@@ -20,6 +20,7 @@ Output (under --out, default benchmarks/gr1_internal/)
                       SKILL.md that is an HTML page is not copied, only its sha256 in metadata.skill_md_omitted)
   tasks.jsonl         6 QueryRecord rows: id, text (= task_desc), source, group_id,
                       metadata {title, category, language, workspace_files}. No gold information.
+  labels_draft.json   GR1 oracle_labels.json for the 6 tasks as qrels (status DRAFT); read by the evaluator only
   gate.json           per-testcase gate verdicts from validate()
   parity/constraint.json   GR1 ConstraintFilterStrategy decisions for several environments (test oracle)
   MANIFEST.json       GR1 commit, whether the exported paths were clean, sha256 of every output file
@@ -103,6 +104,11 @@ def main() -> int:
     parser.add_argument("--skip-gate", action="store_true", help="do not run validate(); gate.json marks every task 'not_run'")
     args = parser.parse_args()
     gr1 = args.gr1.resolve()
+    final = args.out.resolve()                      # before chdir, so a relative --out stays relative to the caller
+    if final.exists() and any(final.iterdir()) and not (final / "MANIFEST.json").exists():
+        raise SystemExit(f"refusing to overwrite {final}: not empty and not a snapshot (no MANIFEST.json)")
+    # Build next to the target and swap at the end: a failed export never leaves a half-written snapshot
+    out = final.with_name(final.name + ".export-tmp")
 
     sys.path.insert(0, str(gr1 / "swe_agent"))
     sys.path.insert(0, str(gr1))
@@ -112,7 +118,6 @@ def main() -> int:
     from testcases_suite import get_testcases
     from cass.filter.constraint import ConstraintFilterStrategy
 
-    out = args.out.resolve()
     if out.exists():
         shutil.rmtree(out)
     (out / "skills").mkdir(parents=True)
@@ -136,7 +141,7 @@ def main() -> int:
                 # A scraped web page, not a skill: keep only a fingerprint, never republish its content
                 flags.append("skill_md_is_html")
                 meta["skill_md_omitted"] = {
-                    "sha256": hashlib.sha256(md_path.read_bytes()).hexdigest(), "bytes": md_path.stat().st_size,
+                    "sha256": sha256(md_path), "bytes": md_path.stat().st_size,
                     "gr1_path": md_path.relative_to(gr1).as_posix(),
                     "note": "GR1 file is an HTML page saved by mistake; content not copied into this repo"}
             else:
@@ -170,6 +175,17 @@ def main() -> int:
                       "metadata": {"title": tc.get("name", tc_id), "category": tc.get("category", ""),
                                    "language": task_language(files), "workspace_files": files}})
     write_jsonl(tasks, out / "tasks.jsonl")
+
+    # ---- draft relevance labels, kept apart from tasks: only the evaluator may read them
+    oracle = json.loads((gr1 / "oracle_labels.json").read_text(encoding="utf-8"))
+    skill_ids = {r["id"] for r in rows}
+    labels = {tc_id: oracle["labels"][tc_id] for tc_id in INTERNAL_TESTCASES}
+    unknown = sorted({s for v in labels.values() for s in v["skills"]} - skill_ids)
+    if unknown:
+        raise SystemExit(f"oracle_labels.json names skills missing from the registry: {unknown}")
+    write_json({"status": oracle.get("_status", ""), "principle": oracle.get("_principle", ""),
+                "qrels": {tc: {s: 1 for s in v["skills"]} for tc, v in labels.items()},
+                "why": {tc: v.get("why", "") for tc, v in labels.items()}}, out / "labels_draft.json")
 
     # ---- gate
     gate = {"tool": "validate_testcases.validate", "results": {}}
@@ -206,7 +222,10 @@ def main() -> int:
                    "tasks": len(tasks), "gate_passed": sum(r.get("status") == "passed" for r in gate["results"].values())},
         "files": {p.relative_to(out).as_posix(): sha256(p) for p in files},
     }, out / "MANIFEST.json")
-    print(f"wrote {out}: {len(rows)} skills, {len(tasks)} tasks, gate "
+    if final.exists():
+        shutil.rmtree(final)
+    out.rename(final)
+    print(f"wrote {final}: {len(rows)} skills, {len(tasks)} tasks, gate "
           f"{sum(r.get('status') == 'passed' for r in gate['results'].values())}/{len(tasks)} passed")
     return 0
 

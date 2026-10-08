@@ -1,0 +1,306 @@
+# Danh mục testcase GR2. Sửa chữ ở đây; "Đầu ra thực tế" và "Kết quả" do scripts/build_testcase_workbook.py
+# điền tự động từ bằng chứng máy ghi (evidence), không gõ tay.
+# evidence.kind:
+#   pytest     các test pytest (node id); Đạt nếu tất cả qua. Giá trị thực tế lấy từ record_property("actual")
+#   gate       đọc benchmarks/gr1_internal/gate.json
+#   reference  đọc benchmarks/reference/skillret_v1.1_test.json
+#   selection  đọc artifacts/explorer/selection_cache.json
+#   manual     đã kiểm tay (ghi rõ ngày và cách kiểm trong "actual")
+#   planned    chưa chạy; "actual" ghi kế hoạch
+# Testcase của từng baseline (TC-BL-...) được sinh tự động từ artifacts/compare/gr1.json, không liệt kê ở đây.
+
+- id: TC-B01
+  type: Đ
+  component: Toàn hệ thống
+  raw: RAW-01
+  dataset: DS-1
+  pre: Repo ở commit lỗi, test đang FAIL
+  input: Mô tả nhiệm vụ sửa lỗi cú pháp Python
+  expected: Sinh bản vá; test chuyển từ FAIL sang PASS
+  intermediate: "—"
+  evidence: {kind: planned, actual: "Giữa kỳ (Công việc 9): cần agent chạy thật. Môi trường đã sẵn sàng: cổng 6/6."}
+
+- id: TC-B02
+  type: Đ
+  component: Toàn hệ thống
+  raw: RAW-05
+  dataset: DS-1
+  pre: Nhiệm vụ cần nhiều bước
+  input: Mô tả nhiệm vụ sửa lỗi Java NPE
+  expected: Giải được, hoặc báo rõ lý do thất bại kèm bước hỏng
+  intermediate: "—"
+  evidence: {kind: planned, actual: "Giữa kỳ (Công việc 9)."}
+
+- id: TC-B03
+  type: Đ
+  component: Toàn hệ thống
+  raw: RAW-06
+  dataset: DS-1
+  pre: Đặt trần ngân sách token
+  input: Nhiệm vụ bất kỳ + ngân sách T token
+  expected: Không vượt ngân sách; báo lại chi phí thực tế
+  intermediate: "—"
+  evidence: {kind: planned, actual: "Tuần 10 (Công việc 7, RQ2) cho ngân sách số skill/token; đầu–cuối giữa kỳ."}
+
+- id: TC-B04
+  type: Đ
+  component: Toàn hệ thống
+  raw: RAW-01
+  dataset: DS-3 (đổi từ DS-2)
+  pre: Môi trường Docker chạy được
+  input: Một nhiệm vụ SWE-bench (đổi từ SWE-Skills-Bench)
+  expected: Chạy hết quy trình, trả verdict đúng theo harness
+  intermediate: "—"
+  evidence: {kind: manual, result: Đạt một phần,
+             actual: "08/10: Docker chạy được; SWE-bench flask-4045 qua cổng (bản vá chuẩn PASS, mã gốc FAIL) trong 122 s. Agent chưa chạy. DS-2 bỏ: repo GitHub 404, không có trên HuggingFace."}
+  note: DS-2 thay bằng DS-3
+
+- id: TC-W01
+  type: T
+  component: Lọc ràng buộc môi trường
+  raw: RAW-08
+  dataset: DS-1
+  pre: Đặt ram-mode cố định 8192MB
+  input: 41 skill + hồ sơ môi trường cố định (windows, fixed:8192)
+  expected: Luôn trả về đúng cùng một tập skill qua mọi lần chạy
+  intermediate: "—"
+  evidence: {kind: pytest, tests: ["tests/unit/test_gr1_dataset.py::test_tier1_on_fixed_8192_windows",
+                                    "tests/unit/test_constraint.py::test_parity_with_gr1_constraint_filter",
+                                    "tests/unit/test_constraint.py::test_parse_ram_mode"],
+             actual: "38 giữ, 3 loại (lý do os: chỉ chạy Linux); trùng bộ lọc GR1 ở 5 môi trường; chỉ chấp nhận fixed:<MB>"}
+  note: "Lỗi GR1: phụ thuộc RAM trống (đã khoá bằng fixed:)"
+
+- id: TC-W02
+  type: T
+  component: Lọc tương đồng ngữ nghĩa
+  raw: RAW-02
+  dataset: DS-1
+  pre: Embedding đã cache
+  input: Mô tả nhiệm vụ + 41 mô tả skill
+  expected: Trả top-k theo cosine, điểm giảm dần, k đúng tham số
+  intermediate: "—"
+  evidence: {kind: pytest, tests: ["tests/unit/test_explorer.py::test_selection", "tests/unit/test_explorer.py::test_rank_by_cosine_by_hand"],
+             actual: "đủ 41 dòng/nhiệm vụ, điểm không tăng, đúng 3 skill được chọn; thứ hạng trùng GR1 toàn bộ 38 hạng × 6 nhiệm vụ (scripts/check_gr1_cosine_parity.py)"}
+
+- id: TC-W03
+  type: T
+  component: Cập nhật độ tin cậy
+  raw: RAW-03
+  dataset: "—"
+  pre: CSDL có skill X ở Beta(1,1)
+  input: Một kết quả PASS cho skill X ở bước S
+  expected: alpha của cặp (S, X) tăng 1; các cặp khác không đổi
+  intermediate: "—"
+  evidence: {kind: planned, actual: "Tuần 11 (Công việc 8, RQ3)."}
+  note: Lõi RQ3
+
+- id: TC-W04
+  type: T
+  component: Tiêu chí đạt / không đạt
+  raw: RAW-09
+  dataset: DS-1
+  pre: Agent chưa sửa tệp nào (tiền điều kiện gốc ghi "không có test_cmd"; cổng chạy có test_cmd)
+  input: Trạng thái cuối của một lượt chạy
+  expected: Trả KHÔNG ĐẠT, lý do = no_file_modified
+  intermediate: "—"
+  evidence: {kind: gate, field: original_verdict, want: no_file_modified}
+
+- id: TC-W05
+  type: T
+  component: Chống sửa bài kiểm thử
+  raw: RAW-09
+  dataset: DS-1
+  pre: Agent đã sửa tệp test
+  input: Workspace sau khi agent chạy (tệp test bị ghi đè)
+  expected: Tệp test được khôi phục về bản gốc trước khi chấm
+  intermediate: "—"
+  evidence: {kind: gate, field: tamper_verdict, want: passed}
+  note: Lỗ hổng nặng nhất của GR1
+
+- id: TC-W06
+  type: T
+  component: Phân rã nhiệm vụ
+  raw: RAW-02
+  dataset: DS-1
+  pre: Mô tả nhiệm vụ hợp lệ
+  input: Một mô tả nhiệm vụ sửa lỗi
+  expected: Sinh chuỗi trạng thái hợp lệ, không có bước lặp vô hạn
+  intermediate: "—"
+  evidence: {kind: decomposition}
+  note: Bộ phân rã heuristic (không LLM)
+
+- id: TC-W07
+  type: T
+  component: Toàn vẹn snapshot dữ liệu
+  raw: RAW-09
+  dataset: DS-1
+  pre: Snapshot có MANIFEST sha256
+  input: Snapshot bị sửa 1 byte
+  expected: Bộ nạp từ chối và chỉ đúng tệp bị sửa
+  intermediate: "—"
+  evidence: {kind: pytest, tests: ["tests/unit/test_gr1_dataset.py::test_snapshot_integrity"],
+             actual: "sha256 khớp MANIFEST; thử sửa 1 chữ trong tasks.jsonl (08/10) → báo đúng tasks.jsonl"}
+
+- id: TC-W08
+  type: T
+  component: Phát hiện skill hỏng
+  raw: RAW-07
+  dataset: DS-1
+  pre: Thư viện GR1 có SKILL.md là trang HTML
+  input: 41 SKILL.md của GR1
+  expected: Skill hỏng bị gắn cờ, nội dung không được chép lại
+  intermediate: "—"
+  evidence: {kind: pytest, tests: ["tests/unit/test_gr1_dataset.py::test_known_gr1_defects_are_flagged",
+                                    "tests/unit/test_gr1_dataset.py::test_html_page_content_not_republished"],
+             actual: "đúng 1 skill bị gắn cờ: custom-imported-skill (skill_md_is_html, description_is_fallback); chỉ lưu sha256"}
+
+- id: TC-W09
+  type: T
+  component: Tên bộ mã hoá
+  raw: RAW-09
+  dataset: DS-1
+  pre: Index đã tính
+  input: Tên encoder gõ tay / tên không có trong index
+  expected: Chuẩn hoá về tên đầy đủ có revision / báo lỗi liệt kê encoder có sẵn
+  intermediate: "—"
+  evidence: {kind: pytest, tests: ["tests/unit/test_explorer.py::test_select_accepts_user_spec_and_rejects_unknown",
+                                    "tests/unit/test_explorer.py::test_parse_encoder_spec"],
+             actual: "st:<model> → st:<model>@<revision>; spec lạ → ValueError 'not in the index'"}
+  note: Lỗi rà code #1
+
+- id: TC-W10
+  type: T
+  component: Prompt và cache embedding
+  raw: RAW-09
+  dataset: "—"
+  pre: Mô hình có prompt riêng cho truy vấn
+  input: Văn bản nhiệm vụ (query) và skill (document)
+  expected: Prompt chỉ áp cho query; đổi model/revision/kind thì cache trượt
+  intermediate: "—"
+  evidence: {kind: pytest, tests: ["tests/unit/test_explorer.py::test_qwen_prompt_only_for_queries",
+                                    "tests/unit/test_explorer.py::test_cache_key_depends_on_model_revision",
+                                    "tests/unit/test_explorer.py::test_encoder_normalises_and_caches"],
+             actual: "query dùng prompt 'query', document không; khoá cache gồm backend, model, revision, kind, prompt"}
+
+- id: TC-W11
+  type: T
+  component: Xuất snapshot an toàn
+  raw: RAW-09
+  dataset: DS-1
+  pre: Snapshot đã tồn tại
+  input: Export vào thư mục lạ / export lại vào thư mục tạm
+  expected: Từ chối thư mục lạ; export lại trùng từng byte (trừ thời điểm)
+  intermediate: "—"
+  evidence: {kind: manual, result: Đạt,
+             actual: "08/10: thư mục lạ → từ chối, tệp trong đó còn nguyên; export lại → mọi tệp trùng, MANIFEST chỉ khác exported_at"}
+  note: Lỗi rà code #4
+
+- id: TC-X01
+  type: X
+  component: Giao diện quan sát
+  raw: RAW-08
+  dataset: DS-1
+  pre: Kết quả chọn tính từ index khác
+  input: selection_cache.json thiếu một nhiệm vụ
+  expected: Trang báo lỗi kèm lệnh cần chạy, không sập
+  intermediate: Phát hiện index và kết quả chọn lệch nhau
+  evidence: {kind: pytest, tests: ["tests/unit/test_app_explorer.py::test_stale_selection_is_refused"],
+             actual: "st.error kèm lệnh 'select gr1 ...', không exception"}
+  note: Lỗi rà code #2
+
+- id: TC-B05
+  type: Đ
+  component: Tái lập kết quả chọn
+  raw: RAW-09
+  dataset: DS-1
+  pre: Cùng index, cùng tham số
+  input: select gr1 --seed 0 --ram-mode fixed:8192 --os windows --k 3 (chạy 2 lần)
+  expected: Hai tệp kết quả giống từng byte; tệp ghi seed, ram-mode, os
+  intermediate: "—"
+  evidence: {kind: selection}
+
+- id: TC-B06
+  type: Đ
+  component: Giao diện không cần API / mạng
+  raw: RAW-06
+  dataset: DS-1
+  pre: Không có OPENAI_API_KEY, không mạng
+  input: streamlit run app/explorer.py
+  expected: Trang chạy bình thường, không gọi API
+  intermediate: "—"
+  evidence: {kind: pytest, tests: ["tests/unit/test_app_explorer.py::test_app_only_reads_json",
+                                    "tests/unit/test_explorer.py::test_selection_needs_no_network",
+                                    "tests/unit/test_explorer.py::test_selection_does_not_import_models",
+                                    "tests/unit/test_app_explorer.py::test_three_areas"],
+             actual: "UI không import torch/openai/skill_selection; chọn skill không mở socket; 3 khu vực hiển thị đủ"}
+
+- id: TC-B07
+  type: Đ
+  component: Bộ đánh giá trên SkillRet
+  raw: RAW-09
+  dataset: DS-5
+  pre: SkillRet v1.1 đã tải (ghim revision)
+  input: BM25 trên 4.392 truy vấn, 6.006 skill
+  expected: Khớp số bài báo SkillRet (±0,05 điểm)
+  intermediate: "—"
+  evidence: {kind: reference, method: BM25}
+
+- id: TC-G01
+  type: X
+  component: Chuỗi thực thi đầy đủ
+  raw: RAW-04
+  dataset: DS-1
+  pre: Nhiệm vụ giải được (đã xác nhận bằng bản vá chuẩn)
+  input: Nhiệm vụ sửa lỗi cú pháp
+  expected: Giải được; test chuyển FAIL sang PASS
+  intermediate: Đi qua đủ ST-1 → ST-5 theo thứ tự
+  evidence: {kind: planned, actual: "Giữa kỳ. Có thể dựng lại một phần từ 188 lượt log GR1 (skill đã gọi, tệp đã sửa, verdict)."}
+  note: Ca thành công chuẩn
+
+- id: TC-G02
+  type: X
+  component: Hỏng ở bước định vị tệp
+  raw: RAW-04
+  dataset: DS-1
+  pre: Chỉ nạp skill KHÔNG đọc được tệp
+  input: Nhiệm vụ sửa lỗi bất kỳ
+  expected: Không giải được
+  intermediate: Dừng ở ST-1; ST-2 đến ST-5 không đạt
+  evidence: {kind: planned, actual: "Giữa kỳ (cần agent)."}
+  note: Kiểm chứng quy trách nhiệm
+
+- id: TC-G03
+  type: X
+  component: Hỏng ở bước ghi tệp
+  raw: RAW-04
+  dataset: DS-1
+  pre: Chỉ nạp skill GỢI Ý, không nạp skill GHI tệp
+  input: Nhiệm vụ sửa lỗi bất kỳ
+  expected: Không giải được
+  intermediate: Đạt ST-1 đến ST-4; KHÔNG đạt ST-5
+  evidence: {kind: planned, actual: "Giữa kỳ (cần agent)."}
+  note: Tái hiện hiện tượng 88% / 3%
+
+- id: TC-G04
+  type: X
+  component: Bao phủ đồ thị dự đoán kết quả
+  raw: RAW-02
+  dataset: DS-1
+  pre: Có nhãn tham chiếu
+  input: Nhiệm vụ + tập skill được chọn
+  expected: Bộ skill bao phủ đồ thị thì tỷ lệ giải được cao hơn rõ rệt
+  intermediate: Ghi lại trạng thái nào được bao phủ, trạng thái nào không
+  evidence: {kind: planned, actual: "Giữa kỳ; phân tích lại offline từ log GR1 (exp1 120 lượt, exp2 68 lượt) trước."}
+  note: Tái lập kết quả 90% / 4%
+
+- id: TC-G05
+  type: X
+  component: Phục hồi sau thất bại
+  raw: RAW-05
+  dataset: DS-1
+  pre: Vòng 1 thất bại ở một bước xác định
+  input: Nhiệm vụ cần nhiều bước
+  expected: Vòng 2 đổi skill cho đúng bước đã hỏng, không lặp y hệt
+  intermediate: Bước hỏng ở vòng 1 được xác định đúng
+  evidence: {kind: planned, actual: "Giữa kỳ."}
+  note: Lõi RQ3

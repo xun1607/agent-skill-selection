@@ -1,0 +1,44 @@
+{
+  "principle": "Moi testcase 3 skill: mot skill doc code/test, mot skill ghi duoc ban sua, mot skill chuyen mon dung loai loi.",
+  "qrels": {
+    "tc_git_conflict": {
+      "git-conflict-resolver": 1,
+      "read_code_context": 1,
+      "suggest_python_fix": 1
+    },
+    "tc_java_npe": {
+      "java-npe-debugger": 1,
+      "read_code_context": 1,
+      "suggest-java-fix": 1
+    },
+    "tc_python_import": {
+      "debug-python-error": 1,
+      "read_code_context": 1,
+      "suggest_python_fix": 1
+    },
+    "tc_python_syntax": {
+      "debug-python-error": 1,
+      "read_code_context": 1,
+      "suggest_python_fix": 1
+    },
+    "tc_repo_data_processor": {
+      "python-pytest-runner": 1,
+      "read_code_context": 1,
+      "suggest_python_fix": 1
+    },
+    "tc_repo_flask_api": {
+      "python-pytest-runner": 1,
+      "read_code_context": 1,
+      "suggest_python_fix": 1
+    }
+  },
+  "status": "DRAFT - chua duoc duyet. Sua nhan o day roi chay lai rieng cau hinh ORACLE.",
+  "why": {
+    "tc_git_conflict": "git-conflict-resolver xu ly marker; suggest_python_fix ghi lai config.py neu can.",
+    "tc_java_npe": "Doc UserService.java; java-npe-debugger (co tool edit ben trong) sua null check; suggest-java-fix goi y mau sua.",
+    "tc_python_import": "NameError do thieu import: doc file, ghi lai file co import math.",
+    "tc_python_syntax": "Loi cu phap don gian: doc file, ghi lai file da sua; debug-python-error la skill chuyen mon Python.",
+    "tc_repo_data_processor": "Doc src/data_parser.py va test, ghi ban sua mac dinh id=0, chay test.",
+    "tc_repo_flask_api": "Can doc tests/test_app.py de biet gia tri mong doi 'N/A', ghi lai app.py, chay test de xac nhan."
+  }
+}

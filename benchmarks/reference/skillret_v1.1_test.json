@@ -1,0 +1,185 @@
+{
+  "dataset": "SkillRet v1.1 test (6,006 skills, 4,392 queries), metrics in %",
+  "not_available": {
+    "GoS / GoS-lite": "chưa chạy trên SkillRet (bài báo GoS không báo cáo SkillRet)"
+  },
+  "rows": [
+    {
+      "method": "BM25",
+      "family": "Từ khoá",
+      "provenance": "reproduced_here",
+      "source": "artifacts/runs/skillret-6583d7d-test_bm25_4df95007ee",
+      "metrics": {
+        "NDCG@10": 51.69,
+        "Recall@10": 59.41,
+        "Completeness@10": 44.56
+      },
+      "matches_paper": true
+    },
+    {
+      "method": "Random",
+      "family": "Sàn",
+      "provenance": "reproduced_here",
+      "source": "artifacts/runs/skillret-6583d7d-test_random_d6955ee161",
+      "metrics": {
+        "NDCG@10": 0.12,
+        "Recall@10": 0.2,
+        "Completeness@10": 0.09
+      }
+    },
+    {
+      "method": "M0-hyb",
+      "family": "Từ khoá lai",
+      "description": "BM25 + TF-IDF (không hợp đồng, không đồ thị)",
+      "provenance": "reproduced_gr1",
+      "source": "GR1 results/sandbox/s2_20261001_201807 (tham số chỉnh trên 200 truy vấn train)",
+      "metrics": {
+        "NDCG@10": 58.24,
+        "Recall@10": 64.72,
+        "Completeness@10": 49.89,
+        "set_f1": 46.35,
+        "n_selected": 1.0
+      }
+    },
+    {
+      "method": "M4-SR",
+      "family": "Phân rã nhiệm vụ + đồ thị trạng thái",
+      "description": "SkillReranker-h: lõi chế độ full, bộ phân rã heuristic, scorer TF-IDF, ứng viên BM25 top-30",
+      "provenance": "reproduced_gr1",
+      "source": "GR1 results/sandbox/s2_20261001_201807 (tham số chỉnh trên 200 truy vấn train)",
+      "metrics": {
+        "NDCG@10": 53.78,
+        "Recall@10": 59.49,
+        "Completeness@10": 44.6,
+        "set_f1": 44.55,
+        "n_selected": 1.17
+      }
+    },
+    {
+      "method": "M4",
+      "family": "Trạng thái",
+      "description": "Xếp hạng theo trạng thái (heuristic)",
+      "provenance": "reproduced_gr1",
+      "source": "GR1 results/sandbox/s2_20261001_201807 (tham số chỉnh trên 200 truy vấn train)",
+      "metrics": {
+        "NDCG@10": 54.86,
+        "Recall@10": 64.31,
+        "Completeness@10": 49.36,
+        "set_f1": 39.53,
+        "n_selected": 1.0
+      }
+    },
+    {
+      "method": "M5",
+      "family": "Đề xuất",
+      "description": "Đề xuất: đường đi trên đồ thị trạng thái (heuristic, lambda/mu chỉnh trên train)",
+      "provenance": "reproduced_gr1",
+      "source": "GR1 results/sandbox/s2_20261001_201807 (tham số chỉnh trên 200 truy vấn train)",
+      "metrics": {
+        "NDCG@10": 56.85,
+        "Recall@10": 64.36,
+        "Completeness@10": 49.41,
+        "set_f1": 46.44,
+        "n_selected": 1.29
+      }
+    },
+    {
+      "method": "M5-nc",
+      "family": "Đề xuất (ablation)",
+      "description": "M5 không dùng hợp đồng tiền điều kiện/kết quả",
+      "provenance": "reproduced_gr1",
+      "source": "GR1 results/sandbox/s2_20261001_201807 (tham số chỉnh trên 200 truy vấn train)",
+      "metrics": {
+        "NDCG@10": 55.8,
+        "Recall@10": 62.29,
+        "Completeness@10": 47.77,
+        "set_f1": 46.93,
+        "n_selected": 1.19
+      }
+    },
+    {
+      "method": "BM25",
+      "family": "Từ khoá",
+      "provenance": "paper_reported",
+      "source": "SkillRet (arXiv 2605.05726), Table 3",
+      "metrics": {
+        "NDCG@10": 51.69,
+        "Recall@10": 59.41,
+        "Completeness@10": 44.56
+      }
+    },
+    {
+      "method": "Qwen3-Embedding-0.6B (SkillRet-base)",
+      "family": "Vector nhúng",
+      "provenance": "paper_reported",
+      "source": "SkillRet (arXiv 2605.05726), Table 3",
+      "metrics": {
+        "NDCG@10": 61.94,
+        "Recall@10": 67.87,
+        "Completeness@10": 51.09
+      }
+    },
+    {
+      "method": "Qwen3-Embedding-8B",
+      "family": "Vector nhúng",
+      "provenance": "paper_reported",
+      "source": "SkillRet (arXiv 2605.05726), Table 3",
+      "metrics": {
+        "NDCG@10": 63.64,
+        "Recall@10": 70.29,
+        "Completeness@10": 54.14
+      }
+    },
+    {
+      "method": "SkillRouter-Embedding-0.6B",
+      "family": "Vector nhúng (tinh chỉnh)",
+      "provenance": "paper_reported",
+      "source": "SkillRet (arXiv 2605.05726), Table 3",
+      "metrics": {
+        "NDCG@10": 73.54,
+        "Recall@10": 78.18,
+        "Completeness@10": 62.7
+      }
+    },
+    {
+      "method": "SkillRet-Embedding-0.6B (SkillRet-FT)",
+      "family": "Vector nhúng (tinh chỉnh)",
+      "provenance": "paper_reported",
+      "source": "SkillRet (arXiv 2605.05726), Table 3",
+      "metrics": {
+        "NDCG@10": 81.12,
+        "Recall@10": 87.74,
+        "Completeness@10": 78.94
+      }
+    },
+    {
+      "method": "SkillRet-Embedding-8B",
+      "family": "Vector nhúng (tinh chỉnh)",
+      "provenance": "paper_reported",
+      "source": "SkillRet (arXiv 2605.05726), Table 3",
+      "metrics": {
+        "NDCG@10": 86.44,
+        "Recall@10": 93.25,
+        "Completeness@10": 88.11
+      }
+    },
+    {
+      "method": "SkillRouter-Reranker-0.6B (+Rerank top-20)",
+      "family": "Truy hồi + xếp hạng lại",
+      "provenance": "paper_reported",
+      "source": "SkillRet (arXiv 2605.05726), Table 4",
+      "metrics": {
+        "NDCG@10": 86.78
+      }
+    },
+    {
+      "method": "SkillRet-Reranker-0.6B (+Rerank top-20)",
+      "family": "Truy hồi + xếp hạng lại",
+      "provenance": "paper_reported",
+      "source": "SkillRet (arXiv 2605.05726), Table 4",
+      "metrics": {
+        "NDCG@10": 87.74
+      }
+    }
+  ]
+}

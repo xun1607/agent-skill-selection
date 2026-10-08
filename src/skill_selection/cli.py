@@ -117,8 +117,11 @@ def _cmd_select(args) -> int:
         raise SystemExit(f"{index_path} not found; run `python -m skill_selection index gr1` first")
     index = json.loads(index_path.read_text(encoding="utf-8"))
     env = Environment(os_name=args.os, ram_mb=parse_ram_mode(args.ram_mode))
-    cache = select_all(index, env, ram_mode=args.ram_mode, k=args.k, seed=args.seed, encoders=args.encoder,
-                       index_sha256=sha256_file(index_path))
+    try:
+        cache = select_all(index, env, ram_mode=args.ram_mode, k=args.k, seed=args.seed, encoders=args.encoder,
+                           index_sha256=sha256_file(index_path))
+    except ValueError as e:
+        raise SystemExit(str(e))
     out = Path(args.artifacts) / "explorer" / "selection_cache.json"
     write_json_stable(cache, out, pretty=True)
     for run in cache["runs"]:
@@ -126,6 +129,44 @@ def _cmd_select(args) -> int:
         for task_id, task in run["tasks"].items():
             print(f"  {task_id:24s} {', '.join(task['selected'])}")
     print(f"\nselection written to {out}  sha256 {sha256_file(out)[:16]}")
+    return 0
+
+
+def _cmd_compare(args) -> int:
+    from .compare import METHODS, run_gr1, score_gr1
+    from .datasets.gr1 import load_gr1
+    from .explorer import write_json_stable
+    bench = load_gr1()
+    run = run_gr1(bench, cache_dir=Path(args.artifacts) / "cache" / "embeddings")
+    scored = score_gr1(run, bench)
+    out = Path(args.artifacts) / "compare" / "gr1.json"
+    write_json_stable({"methods": METHODS, "info": run["info"], "tier1_excluded": run["tier1_excluded"],
+                       "results": run["results"], **scored}, out, pretty=True)
+    cols = ["Recall@3", "NDCG@3", "Recall@5", "Completeness@5", "set_f1", "n_selected"]
+    print(f"labels: {scored['labels_status']}\n{'method':16s} " + " ".join(f"{c:>14s}" for c in cols) + "  checks")
+    for m, row in scored["metrics"].items():
+        ok = sum(c["passed"] for c in scored["checks"][m])
+        print(f"{m:16s} " + " ".join(f"{row[c]:14.3f}" for c in cols) + f"  {ok}/{len(scored['checks'][m])}")
+    print(f"\nwritten to {out}; rankings sha256 {scored['rankings_sha256'][:16]}")
+    return 0
+
+
+def _cmd_eval_run(args) -> int:
+    """Score a ranked-list file produced elsewhere (e.g. scripts/colab_skillret_dense.py) with our metrics and qrels."""
+    from .evaluation.metrics import evaluate
+    from .io import iter_jsonl
+    run = {row["query_id"]: row["skill_ids"] for row in iter_jsonl(Path(args.run))}
+    _, queries, qrels = skillret.load_split(args.split, args.data_root, revision=_revision(args))
+    missing = sorted(set(qrels) - set(run))
+    if missing:
+        print(f"warning: {len(missing)} queries of the qrels are not in the run (scored 0)")
+    report = evaluate(run, qrels, ks=(5, 10, 15))
+    mean = {k: round(v * 100, 2) for k, v in report.mean.items() if k != "n_selected"}
+    out = Path(args.run).with_suffix(".metrics.json")
+    write_json({"run": str(args.run), "revision": _revision(args), "n_evaluated": report.n_evaluated, "mean": mean}, out)
+    for key in ("NDCG@10", "Recall@10", "Completeness@10"):
+        print(f"{key:16s} {mean[key]:6.2f}")
+    print(f"written to {out}")
     return 0
 
 
@@ -179,6 +220,15 @@ def build_parser() -> argparse.ArgumentParser:
     e.add_argument("--k", type=int, default=3)
     e.add_argument("--encoder", action="append", default=None, help="repeatable; default: every encoder in the index")
     e.set_defaults(func=_cmd_select)
+
+    c = sub.add_parser("compare", help="run every baseline on a benchmark and score it against its labels")
+    c.add_argument("dataset", choices=["gr1"])
+    c.set_defaults(func=_cmd_compare)
+
+    v = sub.add_parser("eval-run", help="score a ranked-list jsonl (query_id, skill_ids) against SkillRet qrels")
+    v.add_argument("--run", required=True)
+    v.add_argument("--split", default="test", choices=skillret.SPLITS)
+    v.set_defaults(func=_cmd_eval_run)
     return p
 
 

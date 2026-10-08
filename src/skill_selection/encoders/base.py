@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Dict, List, Sequence
@@ -28,8 +29,13 @@ class Encoder(ABC):
         return f"{self.backend}:{self.model}@{self.revision}"
 
     def info(self) -> Dict[str, str]:
-        return {"spec": self.spec, "backend": self.backend, "model": self.model, "revision": self.revision,
+        info = {"spec": self.spec, "backend": self.backend, "model": self.model, "revision": self.revision,
                 "query_prompt": self.query_prompt}
+        if getattr(self, "max_seq_length", None):
+            info["max_seq_length"] = int(self.max_seq_length)
+        if getattr(self, "dtype", None):
+            info["dtype"] = str(self.dtype)
+        return info
 
     def encode(self, texts: Sequence[str], kind: str) -> np.ndarray:
         if kind not in KINDS:
@@ -53,12 +59,22 @@ class EmbeddingCache:
     @staticmethod
     def key(encoder: Encoder, kind: str, text: str) -> str:
         prompt = encoder.query_prompt if kind == "query" else ""
-        raw = json.dumps([encoder.backend, encoder.model, encoder.revision, kind, prompt, text], ensure_ascii=False)
+        parts = [encoder.backend, encoder.model, encoder.revision, kind, prompt, text]
+        max_len = getattr(encoder, "max_seq_length", None)
+        if max_len:                                      # truncation changes the vector; absent = model default
+            parts.append(int(max_len))
+        dtype = getattr(encoder, "dtype", None)
+        if dtype:                                        # reduced precision changes the vector; absent = float32
+            parts.append(str(dtype))
+        raw = json.dumps(parts, ensure_ascii=False)
         return hashlib.sha256(raw.encode("utf-8")).hexdigest()
 
     def save(self) -> None:
+        """Atomic: write a temp file, then replace, so an interrupted run never corrupts (paid) vectors."""
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        self.path.write_text(json.dumps(self.data, separators=(",", ":")), encoding="utf-8")
+        tmp = self.path.with_name(self.path.name + ".tmp")
+        tmp.write_text(json.dumps(self.data, separators=(",", ":")), encoding="utf-8")
+        os.replace(tmp, self.path)
 
 
 class CachedEncoder:

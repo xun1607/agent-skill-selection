@@ -46,6 +46,11 @@ def verify_manifest(root: Path, manifest: dict) -> List[str]:
     return bad
 
 
+def load_gr1_labels(root: Path = DEFAULT_ROOT) -> dict:
+    """Draft relevance labels {"status", "qrels": {task: {skill: 1}}, "why"}. For the evaluator only, never selectors."""
+    return json.loads((Path(root) / "labels_draft.json").read_text(encoding="utf-8"))
+
+
 def load_gr1(root: Path = DEFAULT_ROOT, verify: bool = True) -> GR1Benchmark:
     root = Path(root)
     if not (root / "MANIFEST.json").exists():
