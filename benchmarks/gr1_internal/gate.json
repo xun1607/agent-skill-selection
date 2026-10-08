@@ -1,0 +1,59 @@
+{
+  "results": {
+    "tc_git_conflict": {
+      "emptied_verdict": "test_failed",
+      "gold_verdict": "passed",
+      "ok": true,
+      "original_test_fails": true,
+      "original_verdict": "no_file_modified",
+      "status": "passed",
+      "tamper_verdict": "n/a"
+    },
+    "tc_java_npe": {
+      "emptied_verdict": "test_failed",
+      "gold_verdict": "passed",
+      "ok": true,
+      "original_test_fails": true,
+      "original_verdict": "no_file_modified",
+      "status": "passed",
+      "tamper_verdict": "passed"
+    },
+    "tc_python_import": {
+      "emptied_verdict": "test_failed",
+      "gold_verdict": "passed",
+      "ok": true,
+      "original_test_fails": true,
+      "original_verdict": "no_file_modified",
+      "status": "passed",
+      "tamper_verdict": "n/a"
+    },
+    "tc_python_syntax": {
+      "emptied_verdict": "test_failed",
+      "gold_verdict": "passed",
+      "ok": true,
+      "original_test_fails": true,
+      "original_verdict": "no_file_modified",
+      "status": "passed",
+      "tamper_verdict": "n/a"
+    },
+    "tc_repo_data_processor": {
+      "emptied_verdict": "test_failed",
+      "gold_verdict": "passed",
+      "ok": true,
+      "original_test_fails": true,
+      "original_verdict": "no_file_modified",
+      "status": "passed",
+      "tamper_verdict": "passed"
+    },
+    "tc_repo_flask_api": {
+      "emptied_verdict": "test_failed",
+      "gold_verdict": "passed",
+      "ok": true,
+      "original_test_fails": true,
+      "original_verdict": "no_file_modified",
+      "status": "passed",
+      "tamper_verdict": "passed"
+    }
+  },
+  "tool": "validate_testcases.validate"
+}

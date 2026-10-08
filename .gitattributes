@@ -1,0 +1,3 @@
+# The GR1 snapshot is checked byte-for-byte against benchmarks/gr1_internal/MANIFEST.json (sha256).
+# Disable end-of-line conversion there, otherwise core.autocrlf=true rewrites LF to CRLF on checkout.
+benchmarks/** -text
