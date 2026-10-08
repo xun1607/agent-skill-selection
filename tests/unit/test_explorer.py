@@ -1,4 +1,3 @@
-import hashlib
 import json
 import socket
 import subprocess
@@ -9,25 +8,13 @@ import pytest
 
 from skill_selection.datasets.gr1 import load_gr1
 from skill_selection.encoders import parse_encoder_spec
-from skill_selection.encoders.base import CachedEncoder, EmbeddingCache, Encoder
+from skill_selection.encoders.base import CachedEncoder, EmbeddingCache
 from skill_selection.encoders.st_encoder import SentenceTransformerEncoder
 from skill_selection.explorer import build_index, select_all, skill_text, write_json_stable
 from skill_selection.filters.constraint import Environment
 from skill_selection.selectors.dense import rank_by_cosine
 
-
-class FakeEncoder(Encoder):
-    """Deterministic pseudo-embeddings from a hash of the text; no model, no network."""
-    backend, model, revision, dim = "fake", "hash", "v1", 8
-
-    def __init__(self):
-        self.calls = []
-
-    def _encode(self, texts, kind):
-        self.calls.append((kind, list(texts)))
-        rows = [np.frombuffer(hashlib.sha256(f"{kind}|{t}".encode()).digest()[:self.dim * 4], dtype=np.uint32)
-                for t in texts]
-        return np.asarray(rows, dtype=np.float32) / 2**32 - 0.5
+from conftest import FakeEncoder
 
 
 @pytest.fixture(scope="module")
