@@ -1,0 +1,29 @@
+{
+  "scope": "manual PoC review only; does not promote registry profiles to valid",
+  "reviewed_on": "2026-10-22",
+  "source": "https://github.com/obra/superpowers",
+  "source_commit": "b739a8af570e10a95898f2bdf6cec97467fa6c12",
+  "license": "MIT",
+  "license_evidence": "data/raw/skill_sources/obra-superpowers/b739a8af570e10a95898f2bdf6cec97467fa6c12/repository/LICENSE",
+  "selection": "fixed manually for a constructed debugging task; not retrieval evaluation",
+  "skills": [
+    {
+      "name": "systematic-debugging",
+      "revision_id": "sha256:c993e03ce83d63b2db9835d3814fdf70a81b04340ab182b5d781fdab3a8871d9",
+      "fit": "Reproduce an incorrect multi-component CSV report, trace records across parser/aggregator/CLI, test root-cause hypotheses, add regression tests.",
+      "observable_steps": ["failing reproduction before implementation edits", "diagnosis linked to data flow", "regression tests", "final verification"],
+      "limits": ["Native superpowers skill tools are not installed by this PoC", "References to test-driven-development are not auto-resolved or silently treated as installed", "Supporting documents are copied but not assumed loaded"]
+    },
+    {
+      "name": "verification-before-completion",
+      "revision_id": "sha256:5eeb7d00c1d12c39155f4452da37a7ed354d69d5b2b250412f9dcdb39578bcf6",
+      "fit": "Require fresh full test and CLI evidence before claiming the reconciliation bug is fixed.",
+      "observable_steps": ["test execution after final implementation change", "CLI execution on the sample", "final claims agree with actual outputs"],
+      "limits": ["A final self-report is insufficient evidence", "Passing tests alone do not establish skill benefit"]
+    }
+  ],
+  "execution_requirements": ["Python 3.10+", "pytest", "local shell", "workspace read/write", "model backend that returns tool calls"],
+  "restrictions": ["no package installation", "no network calls by the task", "no credential access", "no commit", "no subagent delegation"],
+  "default_skills_controlled": false,
+  "eligible_for_training": false
+}

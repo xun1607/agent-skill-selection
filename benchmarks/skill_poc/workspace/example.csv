@@ -1,0 +1,6 @@
+txn_id,customer_id,amount,status
+t1,alice,10.005,settled
+t2,alice,2.675,settled
+t1,alice,10.005,settled
+t3,bob,3.335,settled
+t4,bob,99.00,pending
