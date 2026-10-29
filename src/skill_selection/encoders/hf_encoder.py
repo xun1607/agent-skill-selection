@@ -37,6 +37,10 @@ class LastTokenEncoder(Encoder):
     def _encode(self, texts: List[str], kind: str) -> np.ndarray:
         import torch
         self._load()
+        if self._tok is None:
+            raise RuntimeError("Tokenizer is not initialized after _load(); provide a tokenizer with model_obj.")
+        if self._model is None:
+            raise RuntimeError("Model is not initialized after _load().")
         texts = [self.query_text(t) for t in texts] if kind == "query" else list(texts)
         out = []
         for i in range(0, len(texts), self.batch_size):

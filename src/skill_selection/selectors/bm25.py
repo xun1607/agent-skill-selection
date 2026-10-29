@@ -73,7 +73,7 @@ class BM25Selector(Selector):
         # highest score first; ties keep catalog order (stable sort on the negated score)
         order = positive[np.argsort(-s[positive], kind="stable")][:k]
         return SelectionResult(query_id=query.id, selector=self.name, skill_ids=[self._ids[i] for i in order],
-                               scores=[float(s[i]) for i in order],
+                            scores=[float(s[i]) for i in order],
                                latency_ms=(time.perf_counter() - t0) * 1000)
 
     def config(self):

@@ -5,11 +5,8 @@ like GR1's OpenAIEmbedder. Query and document are encoded the same way (the mode
 Output: normalised float32 vectors. API models cannot be pinned, so the revision is recorded as "api".
 """
 from __future__ import annotations
-
 from typing import List
-
 import numpy as np
-
 from .base import Encoder
 
 MAX_CHARS = 16000

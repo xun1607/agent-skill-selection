@@ -1,18 +1,20 @@
-"""Local encoder through sentence-transformers (default: Qwen/Qwen3-Embedding-0.6B, pinned revision).
+"""Encode text into vectors using Sentence Transformers locally.
 
-Input: texts and kind. Queries use the model's own "query" prompt (an instruction prefix); documents use none, as the
-model card prescribes. Output: normalised float32 vectors. Runs on CPU, no API cost.
-The weights are loaded lazily, on the first text missing from the cache: the query prompt (part of the cache key) is
-read from the model's config_sentence_transformers.json without loading the model. Optional `dtype` ("bfloat16")
-halves the memory of the model; it changes the vectors slightly, so it is part of the cache key.
+Uses Qwen/Qwen3-Embedding-0.6B by default with a pinned revision.
+Queries use the model's query prompt; documents use no prompt.
+Outputs are normalized float32 vectors.
+
+The model loads lazily when uncached text needs encoding. The query
+prompt is read from config_sentence_transformers.json without loading
+the model. Optional bfloat16 reduces memory usage but may slightly
+change vectors; the prompt and dtype are included in the cache key.
+
+Runs on CPU without API costs.
 """
 from __future__ import annotations
-
 import json
 from typing import List, Optional
-
 import numpy as np
-
 from .base import Encoder
 
 
@@ -27,9 +29,8 @@ def _shipped_prompts(model: str, revision: str) -> dict:
 
 class SentenceTransformerEncoder(Encoder):
     backend = "st"
-
     def __init__(self, model: str, revision: str, model_obj=None, device: str = "cpu", batch_size: int = 8,
-                 max_seq_length: Optional[int] = None, dtype: Optional[str] = None):
+                max_seq_length: Optional[int] = None, dtype: Optional[str] = None):
         self.model, self.revision, self.batch_size, self.device = model, revision, batch_size, device
         self.max_seq_length = max_seq_length                 # None = the model's own default (not part of cache key)
         self.dtype = dtype                                   # None = float32 (not part of cache key)
@@ -51,6 +52,7 @@ class SentenceTransformerEncoder(Encoder):
 
     def _encode(self, texts: List[str], kind: str) -> np.ndarray:
         self._load()
+        assert self._st is not None
         prompt_name = self._query_prompt_name if kind == "query" else None
         return self._st.encode(texts, prompt_name=prompt_name, batch_size=self.batch_size,
-                               normalize_embeddings=True, convert_to_numpy=True, show_progress_bar=False)
+                            normalize_embeddings=True, convert_to_numpy=True, show_progress_bar=False)

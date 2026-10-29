@@ -23,17 +23,19 @@ class Encoder(ABC):
     model: str = ""
     revision: str = ""
     query_prompt: str = ""
+    max_seq_length: int | None = None
+    dtype: str | None = None
 
     @property
     def spec(self) -> str:
         return f"{self.backend}:{self.model}@{self.revision}"
 
-    def info(self) -> Dict[str, str]:
-        info = {"spec": self.spec, "backend": self.backend, "model": self.model, "revision": self.revision,
+    def info(self) -> Dict[str, str | int]:
+        info: Dict[str, str | int] = {"spec": self.spec, "backend": self.backend, "model": self.model, "revision": self.revision,
                 "query_prompt": self.query_prompt}
-        if getattr(self, "max_seq_length", None):
+        if self.max_seq_length:
             info["max_seq_length"] = int(self.max_seq_length)
-        if getattr(self, "dtype", None):
+        if self.dtype:
             info["dtype"] = str(self.dtype)
         return info
 
@@ -54,16 +56,16 @@ class EmbeddingCache:
     def __init__(self, path: Path):
         self.path = Path(path)
         self.data: Dict[str, List[float]] = (json.loads(self.path.read_text(encoding="utf-8"))
-                                             if self.path.exists() else {})
+                                            if self.path.exists() else {})
 
     @staticmethod
     def key(encoder: Encoder, kind: str, text: str) -> str:
         prompt = encoder.query_prompt if kind == "query" else ""
-        parts = [encoder.backend, encoder.model, encoder.revision, kind, prompt, text]
-        max_len = getattr(encoder, "max_seq_length", None)
+        parts: List[str | int] = [encoder.backend, encoder.model, encoder.revision, kind, prompt, text]
+        max_len = encoder.max_seq_length
         if max_len:                                      # truncation changes the vector; absent = model default
             parts.append(int(max_len))
-        dtype = getattr(encoder, "dtype", None)
+        dtype = encoder.dtype
         if dtype:                                        # reduced precision changes the vector; absent = float32
             parts.append(str(dtype))
         raw = json.dumps(parts, ensure_ascii=False)

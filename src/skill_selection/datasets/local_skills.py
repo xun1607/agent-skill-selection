@@ -1,5 +1,4 @@
-"""Catalog loader for SKILL.md folders, e.g. the GR1 skill library.
-
+"""Catalog loader for SKILL.md folders
 A SKILL.md starts with a YAML front matter block between two `---` lines, followed by the instructions. Files without
 front matter are kept, with the folder name as id and the whole file as body.
 """
@@ -26,23 +25,52 @@ def split_front_matter(text: str) -> Tuple[dict, str]:
     return {}, text
 
 
-def load_skill_dir(root: Path, source: str = "local") -> List[SkillRecord]:
+def load_skill_dir(root: Path, source: str = "local") -> list[SkillRecord]:
     skills = []
-    for path in sorted(Path(root).rglob("SKILL.md")):
-        meta, body = split_front_matter(path.read_text(encoding="utf-8"))
-        folder = path.parent.name
-        safety = ((meta.get("constraints") or {}).get("safety") or {})
-        metadata = {k: meta[k] for k in METADATA_FIELDS if k in meta}
-        metadata["path"] = path.relative_to(root).as_posix()
-        if "fs_access" in safety:
-            metadata["fs_access"] = safety["fs_access"]
-        skills.append(SkillRecord(
-            id=str(meta.get("name") or folder), name=str(meta.get("name") or folder),
-            description=str(meta.get("description") or "").strip(), body=body.strip(),
-            source=source, category=str(meta.get("category") or ""), metadata=metadata,
-        ))
-    ids = [s.id for s in skills]
-    dupes = sorted({i for i in ids if ids.count(i) > 1})
-    if dupes:
-        raise ValueError(f"duplicate skill ids under {root}: {dupes}")
+    for path in sorted(root.rglob("SKILL.md")):
+        text = path.read_text(encoding="utf-8")
+        # Đọc YAML front matter nếu có
+        metadata = {}
+        body = text
+
+        if text.startswith("---"):
+            parts = text.split("---", 2)
+            if len(parts) == 3:
+                metadata = yaml.safe_load(parts[1]) or {}
+                body = parts[2]
+
+        # Lấy thông tin skill
+        name = metadata.get("name") or path.parent.name
+        constraints = metadata.get("constraints") or {}
+        safety = constraints.get("safety") or {}
+
+        skills.append(
+            SkillRecord(
+                id=str(name),
+                name=str(name),
+                description=str(metadata.get("description") or "").strip(),
+                body=body.strip(),
+                source=source,
+                category=str(metadata.get("category") or ""),
+                metadata={
+                    "version": metadata.get("version"),
+                    "level": metadata.get("level"),
+                    "goal": metadata.get("goal"),
+                    "tags": metadata.get("tags"),
+                    "sub_skills": metadata.get("sub_skills"),
+                    "path": path.relative_to(root).as_posix(),
+                    **(
+                        {"fs_access": safety["fs_access"]}
+                        if "fs_access" in safety
+                        else {}
+                    ),
+                },
+            )
+        )
+
+    # Kiểm tra ID trùng
+    ids = [skill.id for skill in skills]
+    if len(ids) != len(set(ids)):
+        raise ValueError(f"Duplicate skill IDs under {root}")
+    
     return skills

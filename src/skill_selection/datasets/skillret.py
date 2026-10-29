@@ -109,7 +109,7 @@ def load_qrels(path: Path) -> Qrels:
 
 
 def load_split(split: str, data_root: Path, revision: str = REVISION
-               ) -> Tuple[List[SkillRecord], List[QueryRecord], Qrels]:
+            ) -> Tuple[List[SkillRecord], List[QueryRecord], Qrels]:
     paths = split_paths(split, data_root, revision)
     _require(paths)
     return (load_skills(paths["skills"], split), load_queries(paths["queries"], split),
