@@ -16,7 +16,8 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=7"]
+dev = ["pytest>=7", "jsonschema>=4.18"]
+registry = ["jsonschema>=4.18"]
 # Optional, loaded lazily: local multilingual encoder, OpenAI encoder (GR1 comparison), explorer UI
 embed = ["sentence-transformers>=3.0", "transformers>=4.51", "torch"]
 openai = ["openai>=1.30"]
@@ -27,6 +28,9 @@ skill-selection = "skill_selection.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+"skill_selection.registry" = ["schemas/v1/*.json"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]

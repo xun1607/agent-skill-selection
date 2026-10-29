@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gr2.local/schemas/v1/verifier-spec.schema.json",
+  "title": "verifier-spec",
+  "description": "GR2 v1.0: top-level fields from the 2026-10-22 Google Sheets snapshot; nested details documented in docs/registry/schema-mapping.md.",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "v1.0"
+    },
+    "verifier_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "verifier_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "test_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "environment_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timeout_ms": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "verifier_id",
+    "verifier_version",
+    "test_ref",
+    "environment_ref",
+    "timeout_ms"
+  ],
+  "additionalProperties": false
+}

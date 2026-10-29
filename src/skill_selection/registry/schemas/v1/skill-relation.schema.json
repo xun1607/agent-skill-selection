@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gr2.local/schemas/v1/skill-relation.schema.json",
+  "title": "skill-relation",
+  "description": "GR2 v1.0: top-level fields from the 2026-10-22 Google Sheets snapshot; nested details documented in docs/registry/schema-mapping.md.",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "v1.0"
+    },
+    "relation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "relation_revision_id": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "source_revision_id": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "target_revision_id": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "type": {
+      "enum": [
+        "requires",
+        "conflicts_with",
+        "precedes",
+        "related_to"
+      ]
+    },
+    "condition": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "https://gr2.local/schemas/v1/common.schema.json#/$defs/condition"
+        }
+      ]
+    },
+    "evidence": {
+      "type": "string",
+      "minLength": 1
+    },
+    "verification_status": {
+      "enum": [
+        "proposed",
+        "confirmed",
+        "rejected"
+      ]
+    },
+    "updated_at": {
+      "$ref": "https://gr2.local/schemas/v1/common.schema.json#/$defs/utc"
+    }
+  },
+  "required": [
+    "schema_version",
+    "relation_id",
+    "relation_revision_id",
+    "source_revision_id",
+    "target_revision_id",
+    "type",
+    "condition",
+    "evidence",
+    "verification_status",
+    "updated_at"
+  ],
+  "additionalProperties": false
+}

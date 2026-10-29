@@ -1,0 +1,12 @@
+{
+  "schema_version": "v1.0",
+  "relation_id": "demo-relation",
+  "relation_revision_id": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "source_revision_id": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "target_revision_id": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "type": "requires",
+  "condition": null,
+  "evidence": "Synthetic example only",
+  "verification_status": "proposed",
+  "updated_at": "2026-10-22T00:00:00Z"
+}

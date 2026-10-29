@@ -1,0 +1,31 @@
+{
+  "schema_version": "v1.0",
+  "sources": {
+    "obra-superpowers": {
+      "source_id": "obra-superpowers",
+      "repo_url": "https://github.com/obra/superpowers",
+      "commit": "b739a8af570e10a95898f2bdf6cec97467fa6c12",
+      "archive_url": "https://codeload.github.com/obra/superpowers/zip/b739a8af570e10a95898f2bdf6cec97467fa6c12",
+      "archive_sha256": "sha256:92998dff9195beeeecaadf4833658c9f0ed6b0a523935294bc777e486b878d38",
+      "repository_manifest_hash": "sha256:339a63ab23ae9facb5736cbb45157a47bc896ef71b75d292b3056ed5f8cdf405",
+      "import_id": "sha256:56a936a24ddc8eaff6fe993bd924244b4fb749f19585845d8c8b03e584bb844d",
+      "profiles": 15,
+      "rejections": 0,
+      "valid_for_selection": 0,
+      "inventory_ref": "data/processed/registry/imports/obra-superpowers/b739a8af570e10a95898f2bdf6cec97467fa6c12/56a936a24ddc8eaff6fe993bd924244b4fb749f19585845d8c8b03e584bb844d"
+    },
+    "anthropics-skills": {
+      "source_id": "anthropics-skills",
+      "repo_url": "https://github.com/anthropics/skills",
+      "commit": "dbd4588f9e1033efb41dad4bef2f7947c8993d44",
+      "archive_url": "https://codeload.github.com/anthropics/skills/zip/dbd4588f9e1033efb41dad4bef2f7947c8993d44",
+      "archive_sha256": "sha256:2f81fe0297244f9e4fa7673f17a0196009657a08bd1094e9e673c70163ce7d6e",
+      "repository_manifest_hash": "sha256:8946b4b22de420a5d8334d7de1a954cafa35828e0cff9f79c9997e5c75e85754",
+      "import_id": "sha256:0d1fceda26f73fbcb03e79fa655089314d1c5cf04525f88f92f3d1558e340273",
+      "profiles": 19,
+      "rejections": 0,
+      "valid_for_selection": 0,
+      "inventory_ref": "data/processed/registry/imports/anthropics-skills/dbd4588f9e1033efb41dad4bef2f7947c8993d44/0d1fceda26f73fbcb03e79fa655089314d1c5cf04525f88f92f3d1558e340273"
+    }
+  }
+}

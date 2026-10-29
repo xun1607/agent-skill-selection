@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gr2.local/schemas/v1/task-request.schema.json",
+  "title": "task-request",
+  "description": "GR2 v1.0: top-level fields from the 2026-10-22 Google Sheets snapshot; nested details documented in docs/registry/schema-mapping.md.",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "v1.0"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_type": {
+      "enum": [
+        "bug_fix",
+        "feature",
+        "unit_test",
+        "unknown"
+      ]
+    },
+    "repo_ref": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "commit": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "snapshot_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "url",
+        "commit",
+        "snapshot_id"
+      ],
+      "additionalProperties": false
+    },
+    "repo_metadata": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "context_evidence": {
+      "type": "array",
+      "items": {
+        "$ref": "https://gr2.local/schemas/v1/common.schema.json#/$defs/evidence"
+      }
+    },
+    "context_limits": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "registry_snapshot_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "policy_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "selection_mode": {
+      "enum": [
+        "auto",
+        "no_skill",
+        "override"
+      ]
+    },
+    "include_skill_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "exclude_skill_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "budgets": {
+      "type": "object",
+      "properties": {
+        "max_skills": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_load_tokens": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "selector_latency_ms": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        }
+      },
+      "required": [
+        "max_skills",
+        "max_load_tokens"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "request_id",
+    "task_id",
+    "task_text",
+    "task_type",
+    "repo_ref",
+    "repo_metadata",
+    "context_evidence",
+    "context_limits",
+    "registry_snapshot_id",
+    "policy_version",
+    "selection_mode",
+    "include_skill_ids",
+    "exclude_skill_ids",
+    "budgets"
+  ],
+  "additionalProperties": false
+}

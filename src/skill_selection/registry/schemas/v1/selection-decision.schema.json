@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gr2.local/schemas/v1/selection-decision.schema.json",
+  "title": "selection-decision",
+  "description": "GR2 v1.0: top-level fields from the 2026-10-22 Google Sheets snapshot; nested details documented in docs/registry/schema-mapping.md.",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "v1.0"
+    },
+    "decision_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "registry_snapshot_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "policy_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "selector_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "selected",
+        "no_skill",
+        "error"
+      ]
+    },
+    "selected": {
+      "type": "array",
+      "items": {
+        "$ref": "https://gr2.local/schemas/v1/common.schema.json#/$defs/selected"
+      }
+    },
+    "reason_codes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "primary_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "usage": {
+      "$ref": "https://gr2.local/schemas/v1/common.schema.json#/$defs/usage"
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "code",
+            "message"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "decision_id",
+    "request_id",
+    "registry_snapshot_id",
+    "policy_version",
+    "selector_version",
+    "status",
+    "selected",
+    "reason_codes",
+    "primary_reason",
+    "warnings",
+    "usage",
+    "error"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "selected"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "selected": {
+            "minItems": 1
+          },
+          "error": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "no_skill"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "selected": {
+            "maxItems": 0
+          },
+          "error": {
+            "type": "null"
+          },
+          "reason_codes": {
+            "minItems": 1
+          },
+          "primary_reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "error"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "selected": {
+            "maxItems": 0
+          },
+          "error": {
+            "type": "object"
+          },
+          "reason_codes": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
+}

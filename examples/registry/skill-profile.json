@@ -1,0 +1,37 @@
+{
+  "schema_version": "v1.0",
+  "skill_id": "demo/skills/pytest-debug",
+  "revision_id": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "name": "pytest-debug",
+  "description": "Synthetic schema example; not an executable imported package.",
+  "source": {
+    "repo_url": null,
+    "path": "examples/pytest-debug/SKILL.md",
+    "commit": null,
+    "license": null
+  },
+  "declared_version": null,
+  "task_types": [
+    "bug_fix"
+  ],
+  "capabilities": [
+    "pytest_debugging"
+  ],
+  "applicability": [],
+  "requirements": [],
+  "resources": [
+    {
+      "path": "SKILL.md",
+      "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "size_bytes": 100
+    }
+  ],
+  "load_estimate": null,
+  "validation_status": "needs_review",
+  "validation_issues": [
+    "synthetic_example"
+  ],
+  "provenance": {
+    "task_types": "example_only"
+  }
+}

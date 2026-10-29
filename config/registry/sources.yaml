@@ -1,0 +1,32 @@
+schema_version: v1.0
+# These sources are research data, not agent plugin installation instructions.
+# First fetch resolves the ref; later fetches reuse sources.lock.json.
+sources:
+  - source_id: obra-superpowers
+    kind: github
+    repo_url: https://github.com/obra/superpowers
+    ref: main
+    skills_root: skills
+    license_policy: inspect_repository_and_package_notices
+    pilot_candidates:
+      - systematic-debugging
+      - test-driven-development
+      - verification-before-completion
+  - source_id: anthropics-skills
+    kind: github
+    repo_url: https://github.com/anthropics/skills
+    ref: main
+    skills_root: skills
+    license_policy: inspect_each_package_do_not_assume_repository_wide_license
+    pilot_candidates:
+      - webapp-testing
+      - mcp-builder
+  - source_id: swe-skills-bench
+    kind: paper_reference
+    paper_url: https://arxiv.org/abs/2603.15401
+    repo_url: https://github.com/GeniusHTX/SWE-Skills-Bench
+    status: blocked
+    checked_on: '2026-10-22'
+    reason: official_repository_link_returned_404
+    skills_root: null
+    license_policy: unknown_do_not_import_until_source_and_package_license_verified

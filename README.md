@@ -6,6 +6,10 @@ tùy chọn để kiểm chứng end-to-end (chưa có).
 
 Tiếp nối đồ án GR1. Thuật toán mới (Graph base task decomposition, Thompson Sampling)
 
+Khung schema GR2 và công cụ nhập skill theo commit từ Superpowers/Anthropic:
+[hướng dẫn](docs/registry/README.md), [kế hoạch file](docs/registry/implementation-plan.md).
+Phần này tạo inventory cần duyệt; adapter agent E2E chưa được triển khai.
+
 ## Cấu trúc
 
 ```

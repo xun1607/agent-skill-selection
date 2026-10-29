@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gr2.local/schemas/v1/skill-profile.schema.json",
+  "title": "skill-profile",
+  "description": "GR2 v1.0: top-level fields from the 2026-10-22 Google Sheets snapshot; nested details documented in docs/registry/schema-mapping.md.",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "v1.0"
+    },
+    "skill_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision_id": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "$ref": "https://gr2.local/schemas/v1/common.schema.json#/$defs/source"
+    },
+    "declared_version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "task_types": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "applicability": {
+      "type": "array",
+      "items": {
+        "$ref": "https://gr2.local/schemas/v1/common.schema.json#/$defs/condition"
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "$ref": "https://gr2.local/schemas/v1/common.schema.json#/$defs/requirement"
+      }
+    },
+    "resources": {
+      "type": "array",
+      "items": {
+        "$ref": "https://gr2.local/schemas/v1/common.schema.json#/$defs/resource"
+      }
+    },
+    "load_estimate": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "tokens": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "tokenizer": {
+              "type": "string",
+              "minLength": 1
+            },
+            "tokenizer_version": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "scope": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": [
+            "tokens",
+            "tokenizer",
+            "tokenizer_version",
+            "scope"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "validation_status": {
+      "enum": [
+        "valid",
+        "invalid",
+        "needs_review"
+      ]
+    },
+    "validation_issues": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "schema_version",
+    "skill_id",
+    "revision_id",
+    "name",
+    "description",
+    "source",
+    "declared_version",
+    "task_types",
+    "capabilities",
+    "applicability",
+    "requirements",
+    "resources",
+    "validation_status",
+    "validation_issues",
+    "provenance"
+  ],
+  "additionalProperties": false
+}

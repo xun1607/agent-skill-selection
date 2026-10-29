@@ -1,0 +1,31 @@
+{
+  "schema_version": "v1.0",
+  "request_id": "req-demo",
+  "task_id": "task-001",
+  "task_text": "Fix the failing Python unit test.",
+  "task_type": "bug_fix",
+  "repo_ref": {
+    "url": null,
+    "commit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "snapshot_id": null
+  },
+  "repo_metadata": {
+    "language": "python",
+    "test_runner": "pytest"
+  },
+  "context_evidence": [],
+  "context_limits": {
+    "max_files": 3,
+    "max_chars": 12000
+  },
+  "registry_snapshot_id": "demo-empty-snapshot",
+  "policy_version": "demo-policy-v1",
+  "selection_mode": "auto",
+  "include_skill_ids": [],
+  "exclude_skill_ids": [],
+  "budgets": {
+    "max_skills": 1,
+    "max_load_tokens": 2000,
+    "selector_latency_ms": 2000
+  }
+}

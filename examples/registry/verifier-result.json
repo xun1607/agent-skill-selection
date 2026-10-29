@@ -1,0 +1,20 @@
+{
+  "schema_version": "v1.0",
+  "result_id": "vres-demo",
+  "run_id": "run-demo",
+  "task_id": "task-001",
+  "verifier_id": "pytest-demo",
+  "verifier_version": "demo-tests-v1",
+  "status": "pass",
+  "checks": [
+    {
+      "check_id": "synthetic-test",
+      "status": "pass",
+      "message": "Example only, not an observed run"
+    }
+  ],
+  "evidence_ref": null,
+  "environment_ref": "demo-python311-pytest-pinned",
+  "duration_ms": 10,
+  "started_at": "2026-10-22T00:00:00Z"
+}

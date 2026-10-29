@@ -16,7 +16,13 @@ artifacts/
 # Secrets
 .env
 .env.*
-docs
+/docs/*
+!/docs/registry/
+!/docs/poc/
+!/docs/worklog/
+/docs/worklog/*
+!/docs/worklog/2026-10-22.md
+!/docs/worklog/2026-10-23.md
 
 # Editors
 .vscode/

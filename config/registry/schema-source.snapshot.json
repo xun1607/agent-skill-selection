@@ -1,0 +1,1279 @@
+{
+  "source_url": "https://docs.google.com/spreadsheets/d/1tzEWjN_VH00tNJHIX0SF4zYMeRgEMrC6WE2OwUfGOcw/edit",
+  "captured_on": "2026-10-22",
+  "range_per_tab": "A1:N100",
+  "metadata": {
+    "spreadsheetId": "1tzEWjN_VH00tNJHIX0SF4zYMeRgEMrC6WE2OwUfGOcw",
+    "spreadsheetUrl": "https://docs.google.com/spreadsheets/d/1tzEWjN_VH00tNJHIX0SF4zYMeRgEMrC6WE2OwUfGOcw/edit",
+    "properties": {
+      "title": "GR2_interface_schemas_and_data_flow",
+      "locale": "vi_VN",
+      "timeZone": "America/Los_Angeles"
+    },
+    "sheets": [
+      {
+        "properties": {
+          "sheetId": 50248635,
+          "title": "Luồng trao đổi",
+          "index": 0,
+          "sheetType": "GRID",
+          "gridProperties": {
+            "rowCount": 1000,
+            "columnCount": 26,
+            "hideGridlines": true,
+            "rowGroupControlAfter": true,
+            "columnGroupControlAfter": true
+          }
+        }
+      },
+      {
+        "properties": {
+          "sheetId": 1975208483,
+          "title": "SkillProfile",
+          "index": 1,
+          "sheetType": "GRID",
+          "gridProperties": {
+            "rowCount": 1000,
+            "columnCount": 26,
+            "frozenRowCount": 6,
+            "frozenColumnCount": 1,
+            "hideGridlines": true,
+            "rowGroupControlAfter": true,
+            "columnGroupControlAfter": true
+          }
+        }
+      },
+      {
+        "properties": {
+          "sheetId": 1223403512,
+          "title": "SkillRelation",
+          "index": 2,
+          "sheetType": "GRID",
+          "gridProperties": {
+            "rowCount": 1000,
+            "columnCount": 26,
+            "frozenRowCount": 6,
+            "frozenColumnCount": 1,
+            "hideGridlines": true,
+            "rowGroupControlAfter": true,
+            "columnGroupControlAfter": true
+          }
+        }
+      },
+      {
+        "properties": {
+          "sheetId": 1312886710,
+          "title": "TaskRequest",
+          "index": 3,
+          "sheetType": "GRID",
+          "gridProperties": {
+            "rowCount": 1000,
+            "columnCount": 26,
+            "frozenRowCount": 6,
+            "frozenColumnCount": 1,
+            "hideGridlines": true,
+            "rowGroupControlAfter": true,
+            "columnGroupControlAfter": true
+          }
+        }
+      },
+      {
+        "properties": {
+          "sheetId": 550413727,
+          "title": "RegistrySnapshot",
+          "index": 4,
+          "sheetType": "GRID",
+          "gridProperties": {
+            "rowCount": 1000,
+            "columnCount": 26,
+            "frozenRowCount": 6,
+            "frozenColumnCount": 1,
+            "hideGridlines": true,
+            "rowGroupControlAfter": true,
+            "columnGroupControlAfter": true
+          }
+        }
+      },
+      {
+        "properties": {
+          "sheetId": 200692904,
+          "title": "SelectionDecision",
+          "index": 5,
+          "sheetType": "GRID",
+          "gridProperties": {
+            "rowCount": 1000,
+            "columnCount": 26,
+            "frozenRowCount": 6,
+            "frozenColumnCount": 1,
+            "hideGridlines": true,
+            "rowGroupControlAfter": true,
+            "columnGroupControlAfter": true
+          }
+        }
+      },
+      {
+        "properties": {
+          "sheetId": 1769438008,
+          "title": "Verifier",
+          "index": 6,
+          "sheetType": "GRID",
+          "gridProperties": {
+            "rowCount": 1000,
+            "columnCount": 26,
+            "frozenRowCount": 6,
+            "frozenColumnCount": 1,
+            "hideGridlines": true,
+            "rowGroupControlAfter": true,
+            "columnGroupControlAfter": true
+          }
+        }
+      }
+    ]
+  },
+  "tabs": {
+    "Luồng trao đổi": {
+      "range": "'Luồng trao đổi'!A1:N100",
+      "majorDimension": "ROWS",
+      "values": [
+        [],
+        [
+          "GR2 — sơ đồ trao đổi dữ liệu"
+        ],
+        [
+          "Bản nháp MVP · chọn skill trước run · nhãn/verifier ẩn không vào selector"
+        ],
+        [],
+        [
+          "A. CHUẨN BỊ KHO VÀ CHÍNH SÁCH"
+        ],
+        [
+          "Người tạo skill / Data Admin\nSKILL.md + tài nguyên",
+          null,
+          null,
+          null,
+          "Importer\nkiểm tra + chuẩn hóa",
+          null,
+          null,
+          null,
+          "RegistrySnapshot\nprofile + relation",
+          null,
+          null,
+          null,
+          "Admin chốt policy, quyền và budget.\nSelector dùng snapshot + policy đã ghim version."
+        ],
+        [
+          null,
+          null,
+          null,
+          "→",
+          null,
+          null,
+          null,
+          "→"
+        ],
+        [],
+        [],
+        [
+          "B. XỬ LÝ MỘT TASK"
+        ],
+        [
+          "TaskRequest\ntask + repo",
+          null,
+          null,
+          "Selector\nđiều kiện + budget",
+          null,
+          null,
+          "Decision\nskill / no-skill",
+          null,
+          null,
+          "Adapter\nnạp revision",
+          null,
+          null,
+          "Coding agent\nsửa code"
+        ],
+        [
+          null,
+          null,
+          "→",
+          null,
+          null,
+          "→",
+          null,
+          null,
+          "→",
+          null,
+          null,
+          "→"
+        ],
+        [],
+        [],
+        [
+          "C. ĐÁNH GIÁ ĐỘC LẬP"
+        ],
+        [
+          "Task + nhãn + VerifierSpec\nselector/agent không thấy nhãn ẩn",
+          null,
+          null,
+          null,
+          null,
+          "Evaluation runner\nno-skill / baseline / GR2",
+          null,
+          null,
+          null,
+          null,
+          "VerifierResult\npass / fail / error"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "→",
+          null,
+          null,
+          null,
+          null,
+          "→"
+        ],
+        [],
+        [],
+        [
+          "Điểm phân biệt: no-skill là quyết định hợp lệ; selector_error là lỗi. selected ≠ loaded ≠ used."
+        ],
+        [],
+        [
+          "CÁC THÔNG ĐIỆP TRAO ĐỔI CHÍNH"
+        ],
+        [
+          "1",
+          "Skill author / Data Admin",
+          null,
+          null,
+          "Importer",
+          null,
+          null,
+          "SKILL.md, scripts, references, source/license",
+          null,
+          null,
+          null,
+          null,
+          "Tạo SkillProfile + revision; chưa xem nhãn đánh giá"
+        ],
+        [
+          "2",
+          "Importer / Data Admin",
+          null,
+          null,
+          "Registry",
+          null,
+          null,
+          "SkillProfile, SkillRelation, validation issues",
+          null,
+          null,
+          null,
+          null,
+          "Chỉ revision hợp lệ thuộc tập có thể chọn"
+        ],
+        [
+          "3",
+          "Lập trình viên / Adapter",
+          null,
+          null,
+          "Selector",
+          null,
+          null,
+          "TaskRequest + snapshot_id + policy_version",
+          null,
+          null,
+          null,
+          null,
+          "Context giới hạn; không chứa hidden tests/secret"
+        ],
+        [
+          "4",
+          "Selector",
+          null,
+          null,
+          "Adapter",
+          null,
+          null,
+          "SelectionDecision",
+          null,
+          null,
+          null,
+          null,
+          "selected / no_skill / error + reason_codes"
+        ],
+        [
+          "5",
+          "Adapter",
+          null,
+          null,
+          "Coding agent",
+          null,
+          null,
+          "Task + nội dung revision đã chọn",
+          null,
+          null,
+          null,
+          null,
+          "Ghi loaded theo nội dung thực tế đưa vào context"
+        ],
+        [
+          "6",
+          "Coding agent / Adapter",
+          null,
+          null,
+          "Run store",
+          null,
+          null,
+          "trajectory, patch, usage, SkillEvent",
+          null,
+          null,
+          null,
+          null,
+          "used chỉ khi có bằng chứng; không rõ thì unknown"
+        ],
+        [
+          "7",
+          "Evaluation runner",
+          null,
+          null,
+          "Verifier",
+          null,
+          null,
+          "Run artifact + VerifierSpec",
+          null,
+          null,
+          null,
+          null,
+          "Môi trường/test ghim version; agent không sửa verifier"
+        ],
+        [
+          "8",
+          "Verifier",
+          null,
+          null,
+          "Evaluation report",
+          null,
+          null,
+          "VerifierResult + evidence_ref",
+          null,
+          null,
+          null,
+          null,
+          "Tách pass/fail khỏi lỗi hạ tầng/verifier"
+        ]
+      ]
+    },
+    "SkillProfile": {
+      "range": "SkillProfile!A1:N100",
+      "majorDimension": "ROWS",
+      "values": [
+        [],
+        [
+          "SkillProfile"
+        ],
+        [
+          "Một dòng = một trường của hồ sơ một revision skill; đây là schema nội bộ GR2"
+        ],
+        [],
+        [],
+        [
+          "JSON path",
+          "Kiểu",
+          "Bắt buộc",
+          "Nguồn / bên ghi",
+          "Ý nghĩa",
+          "Ví dụ minh họa",
+          "Quy tắc / lưu ý"
+        ],
+        [
+          "schema_version",
+          "string",
+          "Có",
+          "GR2",
+          "Version của contract SkillProfile",
+          "v1.0",
+          "Không phải declared_version của skill"
+        ],
+        [
+          "skill_id",
+          "string",
+          "Có",
+          "Importer",
+          "ID ổn định có namespace",
+          "gr1/python/debug-python-error",
+          "Không chỉ dùng name; duy nhất trong registry"
+        ],
+        [
+          "revision_id",
+          "string",
+          "Có",
+          "Importer",
+          "ID bất biến của gói skill",
+          "sha256:abc…",
+          "Đổi file ảnh hưởng thực thi → revision mới"
+        ],
+        [
+          "name",
+          "string",
+          "Có",
+          "SKILL.md",
+          "Tên skill để hiển thị/truy hồi",
+          "debug-python-error",
+          "Giữ nguyên tên gốc"
+        ],
+        [
+          "description",
+          "string",
+          "Có",
+          "SKILL.md",
+          "Mô tả ngắn cho candidate retrieval",
+          "Phân tích lỗi Python",
+          "Không dùng mô tả rỗng"
+        ],
+        [
+          "source.repo_url",
+          "string|null",
+          "Có",
+          "Importer",
+          "Repo gốc nếu có",
+          "https://…",
+          "Có thể null với skill nội bộ"
+        ],
+        [
+          "source.path",
+          "string",
+          "Có",
+          "Importer",
+          "Đường dẫn trong nguồn",
+          "skills/python/debug/SKILL.md",
+          "Không chứa secret"
+        ],
+        [
+          "source.commit",
+          "string|null",
+          "Có",
+          "Importer",
+          "Commit nguồn",
+          "a1b2c3d",
+          "Null nếu nguồn không dùng Git"
+        ],
+        [
+          "source.license",
+          "string|null",
+          "Có",
+          "Importer",
+          "License đã kiểm tra",
+          "MIT",
+          "Unknown/null không mặc định được phép dùng"
+        ],
+        [
+          "declared_version",
+          "string|null",
+          "Có",
+          "Tác giả",
+          "Version tác giả khai báo",
+          "1.2.0",
+          "Không thay revision_id"
+        ],
+        [
+          "task_types[]",
+          "string[]",
+          "Có",
+          "Importer + duyệt",
+          "Loại task skill hỗ trợ",
+          "bug_fix",
+          "Dùng taxonomy đã chốt"
+        ],
+        [
+          "capabilities[]",
+          "string[]",
+          "Có",
+          "Importer + duyệt",
+          "Khả năng cung cấp",
+          "traceback_analysis",
+          "Nêu chức năng, không nêu điểm đánh giá"
+        ],
+        [
+          "applicability[]",
+          "condition[]",
+          "Có",
+          "Importer + duyệt",
+          "Điều kiện áp dụng",
+          "python_version >= 3.10",
+          "Mỗi condition có key/op/value/hard-soft/status"
+        ],
+        [
+          "requirements[]",
+          "requirement[]",
+          "Có",
+          "Importer + duyệt",
+          "Tool/quyền/dữ kiện cần",
+          "tool: shell",
+          "Không tự suy ra quyền agent có"
+        ],
+        [
+          "resources[]",
+          "resource[]",
+          "Có",
+          "Importer",
+          "Manifest gói và hash",
+          "SKILL.md, sha256:…",
+          "Đường dẫn tương đối; kiểm tra file tồn tại"
+        ],
+        [
+          "load_estimate",
+          "object|null",
+          "Tùy",
+          "Profiler",
+          "Ước lượng token nạp",
+          "1200 tokens, tokenizer X",
+          "Phụ thuộc model/tokenizer và phần nạp"
+        ],
+        [
+          "validation_status",
+          "enum",
+          "Có",
+          "Importer",
+          "valid / invalid / needs_review",
+          "valid",
+          "Invalid không vào tập chọn"
+        ],
+        [
+          "validation_issues[]",
+          "string[]",
+          "Có",
+          "Importer",
+          "Lý do lỗi/cần duyệt",
+          "missing_resource",
+          "Rỗng nếu valid"
+        ],
+        [
+          "provenance",
+          "object",
+          "Có",
+          "Importer",
+          "Nguồn của các trường suy ra",
+          "task_types: human_confirmed",
+          "Không coi LLM-proposed là xác nhận"
+        ]
+      ]
+    },
+    "SkillRelation": {
+      "range": "SkillRelation!A1:N100",
+      "majorDimension": "ROWS",
+      "values": [
+        [],
+        [
+          "SkillRelation"
+        ],
+        [
+          "Quan hệ có kiểu giữa hai revision; chỉ confirmed áp ràng buộc cứng"
+        ],
+        [],
+        [],
+        [
+          "JSON path",
+          "Kiểu",
+          "Bắt buộc",
+          "Nguồn / bên ghi",
+          "Ý nghĩa",
+          "Ví dụ minh họa",
+          "Quy tắc / lưu ý"
+        ],
+        [
+          "schema_version",
+          "string",
+          "Có",
+          "GR2",
+          "Version contract",
+          "v1.0",
+          "Tách khỏi version skill"
+        ],
+        [
+          "relation_id",
+          "string",
+          "Có",
+          "Registry",
+          "ID logic của quan hệ",
+          "rel-001",
+          "Ổn định khi bản ghi được duyệt lại"
+        ],
+        [
+          "relation_revision_id",
+          "string",
+          "Có",
+          "Registry",
+          "Bản ghi quan hệ bất biến",
+          "sha256:def…",
+          "Snapshot tham chiếu ID này"
+        ],
+        [
+          "source_revision_id",
+          "string",
+          "Có",
+          "Data Admin",
+          "Skill nguồn A",
+          "sha256:skill-a",
+          "Phải tồn tại trong snapshot khi quan hệ active"
+        ],
+        [
+          "target_revision_id",
+          "string",
+          "Có",
+          "Data Admin",
+          "Skill đích B",
+          "sha256:skill-b",
+          "Phải tồn tại trong snapshot khi quan hệ active"
+        ],
+        [
+          "type",
+          "enum",
+          "Có",
+          "Data Admin",
+          "requires/conflicts_with/precedes/related_to",
+          "requires",
+          "precedes không ép chọn; related_to không chặn"
+        ],
+        [
+          "condition",
+          "condition|null",
+          "Có",
+          "Data Admin",
+          "Điều kiện quan hệ có hiệu lực",
+          "framework=pytest",
+          "Null = luôn có hiệu lực"
+        ],
+        [
+          "evidence",
+          "string|ref",
+          "Có",
+          "Data Admin",
+          "Bằng chứng/nguồn xác nhận",
+          "SKILL.md#Prerequisites",
+          "Không để lý do mơ hồ"
+        ],
+        [
+          "verification_status",
+          "enum",
+          "Có",
+          "Data Admin",
+          "proposed/confirmed/rejected",
+          "confirmed",
+          "Chỉ confirmed dùng để ép/chặn"
+        ],
+        [
+          "updated_at",
+          "datetime",
+          "Có",
+          "Registry",
+          "Thời điểm revision được tạo",
+          "UTC 2026-10-15 09:00",
+          "Lưu UTC"
+        ]
+      ]
+    },
+    "TaskRequest": {
+      "range": "TaskRequest!A1:N100",
+      "majorDimension": "ROWS",
+      "values": [
+        [],
+        [
+          "TaskRequest"
+        ],
+        [
+          "Đầu vào selector; không chứa nhãn, gold patch hoặc hidden verifier"
+        ],
+        [],
+        [],
+        [
+          "JSON path",
+          "Kiểu",
+          "Bắt buộc",
+          "Nguồn / bên ghi",
+          "Ý nghĩa",
+          "Ví dụ minh họa",
+          "Quy tắc / lưu ý"
+        ],
+        [
+          "schema_version",
+          "string",
+          "Có",
+          "GR2",
+          "Version contract",
+          "v1.0",
+          "Kiểm tra trước khi chọn"
+        ],
+        [
+          "request_id",
+          "string",
+          "Có",
+          "Adapter",
+          "ID lần gọi selector",
+          "req-001",
+          "Một task có thể có nhiều request ở giai đoạn sau"
+        ],
+        [
+          "task_id",
+          "string",
+          "Có",
+          "Task store",
+          "ID task",
+          "task-123",
+          "Không tiết lộ nhãn qua ID có nghĩa"
+        ],
+        [
+          "task_text",
+          "string",
+          "Có",
+          "Lập trình viên",
+          "Yêu cầu gốc",
+          "Sửa lỗi đăng nhập",
+          "Giới hạn kích thước; giữ bản gốc ở task store"
+        ],
+        [
+          "task_type",
+          "enum",
+          "Có",
+          "Task parser",
+          "bug_fix/feature/unit_test/unknown",
+          "bug_fix",
+          "Unknown nếu chưa chắc"
+        ],
+        [
+          "repo_ref",
+          "object",
+          "Có",
+          "Adapter",
+          "Repo và commit/snapshot bất biến",
+          "shop-api@a1b2c3d",
+          "Không chỉ ghi tên repo"
+        ],
+        [
+          "repo_metadata",
+          "object",
+          "Có",
+          "Context extractor",
+          "Ngôn ngữ, runtime, framework, test runner",
+          "Python 3.11; pytest",
+          "Từng giá trị có thể unknown"
+        ],
+        [
+          "context_evidence[]",
+          "evidence[]",
+          "Có",
+          "Context extractor",
+          "Snippet/traceback có nguồn",
+          "tests/test_auth.py:40-55",
+          "Ghi file/line, content hash và mức cắt ngữ cảnh"
+        ],
+        [
+          "context_limits",
+          "object",
+          "Có",
+          "Adapter",
+          "Giới hạn trích xuất đã dùng",
+          "max_files=3",
+          "Không biến ví dụ 3 file thành luật cố định"
+        ],
+        [
+          "registry_snapshot_id",
+          "string",
+          "Có",
+          "Registry",
+          "Kho skill dùng cho lần chọn",
+          "snapshot-001",
+          "Resolve latest trước gọi; không để trôi giữa run"
+        ],
+        [
+          "policy_version",
+          "string",
+          "Có",
+          "Admin",
+          "Quy tắc chọn và fallback",
+          "policy-1",
+          "Tách khỏi snapshot kho"
+        ],
+        [
+          "selection_mode",
+          "enum",
+          "Có",
+          "Người dùng/Adapter",
+          "auto/no_skill/override",
+          "auto",
+          "Override phải kiểm tra quyền"
+        ],
+        [
+          "include_skill_ids[]",
+          "string[]",
+          "Có",
+          "Người dùng",
+          "Yêu cầu ưu tiên skill",
+          "[skill-a]",
+          "Không vượt policy/hard constraints"
+        ],
+        [
+          "exclude_skill_ids[]",
+          "string[]",
+          "Có",
+          "Người dùng",
+          "Skill không được dùng",
+          "[skill-b]",
+          "Mặc định []"
+        ],
+        [
+          "budgets.max_skills",
+          "integer",
+          "Có",
+          "Admin/Task",
+          "Giới hạn số skill",
+          "2",
+          "Không âm; áp sau khi đóng phụ thuộc"
+        ],
+        [
+          "budgets.max_load_tokens",
+          "integer",
+          "Có",
+          "Admin/Task",
+          "Trần token skill nạp",
+          "3000",
+          "Tách khỏi token của toàn agent run"
+        ],
+        [
+          "budgets.selector_latency_ms",
+          "integer|null",
+          "Tùy",
+          "Admin",
+          "Thời gian tối đa của selector",
+          "2000",
+          "Timeout trả error, không ghi no_match"
+        ]
+      ]
+    },
+    "RegistrySnapshot": {
+      "range": "RegistrySnapshot!A1:N100",
+      "majorDimension": "ROWS",
+      "values": [
+        [],
+        [
+          "RegistrySnapshot"
+        ],
+        [
+          "Manifest bất biến của các revision skill/profile/relation đang được phép xét"
+        ],
+        [],
+        [],
+        [
+          "JSON path",
+          "Kiểu",
+          "Bắt buộc",
+          "Nguồn / bên ghi",
+          "Ý nghĩa",
+          "Ví dụ minh họa",
+          "Quy tắc / lưu ý"
+        ],
+        [
+          "schema_version",
+          "string",
+          "Có",
+          "GR2",
+          "Version contract",
+          "v1.0",
+          "Không phải policy version"
+        ],
+        [
+          "snapshot_id",
+          "string",
+          "Có",
+          "Registry",
+          "ID snapshot bất biến",
+          "snapshot-001",
+          "Decision phải lưu ID này"
+        ],
+        [
+          "created_at",
+          "datetime UTC",
+          "Có",
+          "Registry",
+          "Thời điểm chốt kho",
+          "UTC 2026-10-15 09:00",
+          "Không dùng để thay ID"
+        ],
+        [
+          "skill_revisions[]",
+          "object[]",
+          "Có",
+          "Registry",
+          "skill_id + revision_id + profile_revision_id",
+          "skill-a / sha256:a / prof-1",
+          "Chỉ revision hợp lệ; thứ tự chuẩn hóa"
+        ],
+        [
+          "relation_revisions[]",
+          "string[]",
+          "Có",
+          "Registry",
+          "Các relation revision thuộc snapshot",
+          "[relrev-001]",
+          "Hai đầu phải được resolve theo policy"
+        ],
+        [
+          "manifest_hash",
+          "string",
+          "Có",
+          "Registry",
+          "Kiểm tra toàn vẹn manifest",
+          "sha256:…",
+          "Hash dữ liệu chuẩn hóa, không dùng hash Excel"
+        ],
+        [
+          "source_refs[]",
+          "object[]",
+          "Có",
+          "Importer",
+          "Nguồn/commit của đợt import",
+          "repo@commit",
+          "Hỗ trợ truy vết license và xuất xứ"
+        ],
+        [
+          "status",
+          "enum",
+          "Có",
+          "Registry",
+          "ready/invalid/archived",
+          "ready",
+          "Không chọn snapshot invalid"
+        ]
+      ]
+    },
+    "SelectionDecision": {
+      "range": "SelectionDecision!A1:N100",
+      "majorDimension": "ROWS",
+      "values": [
+        [],
+        [
+          "SelectionDecision"
+        ],
+        [
+          "Đầu ra selector nối TaskRequest với adapter/run; cần để phân biệt no-skill và lỗi"
+        ],
+        [],
+        [],
+        [
+          "JSON path",
+          "Kiểu",
+          "Bắt buộc",
+          "Nguồn / bên ghi",
+          "Ý nghĩa",
+          "Ví dụ minh họa",
+          "Quy tắc / lưu ý"
+        ],
+        [
+          "schema_version",
+          "string",
+          "Có",
+          "GR2",
+          "Version contract",
+          "v1.0",
+          "Ghim contract"
+        ],
+        [
+          "decision_id",
+          "string",
+          "Có",
+          "Selector",
+          "ID quyết định",
+          "dec-001",
+          "Run tham chiếu ID này"
+        ],
+        [
+          "request_id",
+          "string",
+          "Có",
+          "Selector",
+          "Request đã xử lý",
+          "req-001",
+          "Liên kết ngược TaskRequest"
+        ],
+        [
+          "registry_snapshot_id",
+          "string",
+          "Có",
+          "Selector",
+          "Snapshot thực sự đã dùng",
+          "snapshot-001",
+          "Phải khớp request"
+        ],
+        [
+          "policy_version",
+          "string",
+          "Có",
+          "Selector",
+          "Policy thực sự đã dùng",
+          "policy-1",
+          "Phải khớp request"
+        ],
+        [
+          "selector_version",
+          "string",
+          "Có",
+          "Selector",
+          "Code/model/scorer version",
+          "selector-v0",
+          "Cần cho so sánh công bằng"
+        ],
+        [
+          "status",
+          "enum",
+          "Có",
+          "Selector",
+          "selected/no_skill/error",
+          "no_skill",
+          "Danh sách rỗng không đủ để suy status"
+        ],
+        [
+          "selected[]",
+          "object[]",
+          "Có",
+          "Selector",
+          "skill_id + revision_id + vị trí",
+          "[]",
+          "Rỗng khi no_skill/error"
+        ],
+        [
+          "reason_codes[]",
+          "string[]",
+          "Có",
+          "Selector",
+          "Mã lý do chọn/loại/no-skill",
+          "[NO_MATCH]",
+          "Tách error khỏi abstain"
+        ],
+        [
+          "primary_reason",
+          "string|null",
+          "Có",
+          "Selector",
+          "Lý do chính để hiển thị",
+          "NO_MATCH",
+          "Có thể null nếu selected"
+        ],
+        [
+          "warnings[]",
+          "string[]",
+          "Có",
+          "Selector",
+          "Điều kiện unknown/rủi ro",
+          "[SOFT_UNKNOWN]",
+          "Không biến unknown thành satisfied"
+        ],
+        [
+          "usage",
+          "object",
+          "Có",
+          "Selector",
+          "Latency, token/cost selector",
+          "elapsed_ms=118",
+          "Không trộn với chi phí agent"
+        ],
+        [
+          "error",
+          "object|null",
+          "Có",
+          "Selector",
+          "Loại lỗi máy/kho/time-out",
+          "null",
+          "Chỉ khác null khi status=error"
+        ]
+      ]
+    },
+    "Verifier": {
+      "range": "Verifier!A1:N100",
+      "majorDimension": "ROWS",
+      "values": [
+        [],
+        [
+          "Verifier"
+        ],
+        [
+          "VerifierSpec chỉ runner được đọc; VerifierResult chỉ tạo sau khi agent chạy"
+        ],
+        [],
+        [],
+        [
+          "JSON path",
+          "Kiểu",
+          "Bắt buộc",
+          "Nguồn / bên ghi",
+          "Ý nghĩa",
+          "Ví dụ minh họa",
+          "Quy tắc / lưu ý"
+        ],
+        [
+          "SPEC · schema_version",
+          "string",
+          "Có",
+          "GR2",
+          "Version contract VerifierSpec",
+          "v1.0",
+          "Không cấp cho selector"
+        ],
+        [
+          "SPEC · verifier_id",
+          "string",
+          "Có",
+          "Data Admin",
+          "ID bộ kiểm tra",
+          "auth-login-tests",
+          "Task tham chiếu spec riêng"
+        ],
+        [
+          "SPEC · verifier_version",
+          "string",
+          "Có",
+          "Data Admin",
+          "Hash/version test và config",
+          "sha256:test…",
+          "Test thay đổi → version mới"
+        ],
+        [
+          "SPEC · test_ref",
+          "string",
+          "Có",
+          "Data Admin",
+          "Test/script kiểm tra",
+          "private/tests_auth.py",
+          "Agent không được sửa hoặc đọc hidden test"
+        ],
+        [
+          "SPEC · environment_ref",
+          "string",
+          "Có",
+          "Data Admin",
+          "Image/config môi trường",
+          "image@sha256:…",
+          "Ghim dependency/môi trường"
+        ],
+        [
+          "SPEC · timeout_ms",
+          "integer",
+          "Có",
+          "Data Admin",
+          "Trần thời gian verifier",
+          "120000",
+          "Timeout tách khỏi fail"
+        ],
+        [
+          "RESULT · schema_version",
+          "string",
+          "Có",
+          "GR2",
+          "Version contract result",
+          "v1.0",
+          "Kết quả riêng từng run"
+        ],
+        [
+          "RESULT · result_id",
+          "string",
+          "Có",
+          "Verifier",
+          "ID kết quả",
+          "vres-001",
+          "Duy nhất"
+        ],
+        [
+          "RESULT · run_id",
+          "string",
+          "Có",
+          "Runner",
+          "Agent run được kiểm tra",
+          "run-001",
+          "Liên kết về decision"
+        ],
+        [
+          "RESULT · task_id",
+          "string",
+          "Có",
+          "Runner",
+          "Task của run",
+          "task-123",
+          "Phải khớp run"
+        ],
+        [
+          "RESULT · verifier_id",
+          "string",
+          "Có",
+          "Verifier",
+          "Spec đã dùng",
+          "auth-login-tests",
+          "Không lấy verifier mới hơn"
+        ],
+        [
+          "RESULT · verifier_version",
+          "string",
+          "Có",
+          "Verifier",
+          "Version thực tế đã chạy",
+          "sha256:test…",
+          "Phải khớp VerifierSpec"
+        ],
+        [
+          "RESULT · status",
+          "enum",
+          "Có",
+          "Verifier",
+          "pass/fail/error/timeout/invalid_environment",
+          "pass",
+          "Lỗi hạ tầng không tự tính agent fail"
+        ],
+        [
+          "RESULT · checks[]",
+          "object[]",
+          "Có",
+          "Verifier",
+          "Kết quả từng phép kiểm tra",
+          "login_test: pass",
+          "Ghi test count nếu có"
+        ],
+        [
+          "RESULT · evidence_ref",
+          "string|null",
+          "Có",
+          "Verifier",
+          "Log/report kiểm tra",
+          "artifacts/run-001/test.log",
+          "Bảo vệ quyền truy cập"
+        ],
+        [
+          "RESULT · environment_ref",
+          "string",
+          "Có",
+          "Verifier",
+          "Môi trường thực tế đã dùng",
+          "image@sha256:…",
+          "Không khớp spec → invalid_environment"
+        ],
+        [
+          "RESULT · duration_ms",
+          "integer",
+          "Có",
+          "Verifier",
+          "Thời gian kiểm tra",
+          "3280",
+          "Không cộng lẫn vào agent runtime khi báo cáo"
+        ],
+        [
+          "RESULT · started_at",
+          "datetime UTC",
+          "Có",
+          "Verifier",
+          "Thời điểm bắt đầu",
+          "UTC 2026-10-15 09:30",
+          "Lưu UTC"
+        ]
+      ]
+    }
+  }
+}
