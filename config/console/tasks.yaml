@@ -1,0 +1,21 @@
+tasks:
+  - id: marshmallow-easy
+    instance_id: marshmallow-code__marshmallow-1343
+    category: Easy / no-skill
+    subset: lite
+    split: dev
+    description: Localized schema bug used as the solved reference case.
+
+  - id: matplotlib-medium
+    instance_id: matplotlib__matplotlib-25960
+    category: Medium / skill-relevant
+    subset: verified
+    split: test
+    description: Subfigure spacing bug requiring reproduction and layout verification.
+
+  - id: django-hard
+    instance_id: django__django-13212
+    category: Hard / multi-step
+    subset: verified
+    split: test
+    description: Validator error parameters across multiple implementations and branches.
