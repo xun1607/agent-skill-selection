@@ -55,6 +55,21 @@ python -m skill_selection catalog --path <thư mục skills> --out data/processe
 
 Hoặc cài dạng editable: `pip install -e ".[dev]"`, sau đó dùng lệnh `skill-selection ...`.
 
+## Local experiment console
+
+The Streamlit console provides a read-only view of the pinned skill inventory and a two-stage runner for the curated
+SWE-bench tasks. Stage 1 runs mini-SWE-agent and can incur model API cost. Stage 2 converts a submitted trajectory to
+a prediction, runs the local Docker evaluator, and shows the report and `test_output.txt` tail.
+
+```powershell
+$env:MINI_SWE_AGENT_ROOT = 'D:\path\to\mini-swe-agent'
+& '.\.venv\Scripts\streamlit.exe' run app/control_panel.py
+```
+
+The UI only offers tasks from `config/console/tasks.yaml`; it does not accept arbitrary shell commands. Run artifacts
+are written under the ignored `artifacts/console/` directory. See
+[`docs/registry/experiment-console.md`](docs/registry/experiment-console.md) for the state model and safety limits.
+
 ## Giao diện Explorer (bộ GR1)
 
 Cài một lần (Windows cmd, trong thư mục repo):
